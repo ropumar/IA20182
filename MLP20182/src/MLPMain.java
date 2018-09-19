@@ -45,8 +45,8 @@ public class MLPMain {
 	}
 	
 	/*
-	 * Solves a TSP instance with the greedy Standard nearest neighbor approach and prints
-	 * the path, time to generate a path, and the best known path.
+	 * Solves a MLP instance with the Standard Greedy algorithm nearest neighbor approach and prints
+	 * the total latency, path, time to generate a path, and the best known MPL solution.
 	 */
 	public static void timeGreedy(String tspName, HashMap<String, Integer> bestCost, HashMap<String, Float> avarageTimes) throws Exception {
 		long startTime, endTime, duration;
