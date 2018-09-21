@@ -4,7 +4,7 @@ import java.util.HashSet;
 import problem.TSP.DistanceTable;
 import problem.TSP.TSPInstance;
 
-public class GreedyStandard {
+public class GulosoMLP {
 
 	private TSPInstance tsp;
 	private int[] cities;
@@ -12,10 +12,9 @@ public class GreedyStandard {
 	private int[] path;
 	private DistanceTable dt;
 
-	/*
-	 * Constructs an instance of a MLP problem and applies greedy nearest neighbor.
-	 */
-	public GreedyStandard(TSPInstance problem) throws Exception {
+	//Controi instancia do problema MLP e aplica algoritimo guloso
+
+	public GulosoMLP(TSPInstance problem) throws Exception {
 		this.tsp = problem;
 		dt = tsp.getDistanceTable();
 		cities = dt.listVertices();
@@ -23,11 +22,7 @@ public class GreedyStandard {
 		path = getGreedyTour(0, cities, dt, latencyArray);
 	}
 
-	/*
-	 * Constructs a greedy nearest neighbor tour throughout the cities based on a
-	 * given starting city. start - index of starting city in cities array. cities -
-	 * array of unique cities in the MLP instance.
-	 */
+	// agoritimo guloso
 	public int[] getGreedyTour(int start, int[] cities, DistanceTable dt, double[] latencyArray) throws Exception {
 		if (start > cities.length)
 			throw new Exception();
@@ -35,17 +30,14 @@ public class GreedyStandard {
 		for (int i : cities)
 			unvisited.add(new Integer(i));
 		unvisited.remove(new Integer(cities[start]));
-
-		// set starting point in greedy nearest neighbor path
 		int[] tour = new int[cities.length];
 		tour[0] = cities[start];
 		latencyArray[0]=0f;
 		for (int i = 1; i < tour.length; i++) {
 			int predecessor = tour[i - 1];
-			//System.out.println(tour[i - 1]);
 			double minDist = Double.MAX_VALUE;
 			int nextCity = -1;
-			// get nearest neighbor city
+			// vizinho mais proximo
 			for (Integer city : unvisited) {
 				int currCity = city.intValue();
 				double dist = dt.getDistanceBetween(predecessor, currCity);
@@ -61,9 +53,7 @@ public class GreedyStandard {
 		return tour;
 	}
 
-	/*
-	 * Calculates the total distance of tour
-	 */
+	// calcula distancia do percurso
 	private static double getTourDist(int[] tour, DistanceTable dt) {
 		double dist = 0;
 		for (int i = 0; i < tour.length - 1; i++) {
@@ -73,36 +63,32 @@ public class GreedyStandard {
 		return dist;
 	}
 	
-	/*
-	 * Calculates the total latency of tour
-	 */
+	// calcula latencia total do percurso
 	private static double getTourLatency(int[] tour, double[] latencyArray) {
 		double totlatency=0;
+		System.out.println("Latencia");
 		for (int i = 0; i < tour.length - 1; i++) {
 			totlatency +=latencyArray[i];
+			System.out.print(latencyArray[tour[i]-1] + " ");
 		}
-
+		System.out.println("");
 		return totlatency;
 	}
 
-	/*
-	 * Prints latency and distance cost
-	 */
+	//imprime percurso, latencia e distancia
 	private void printTour(int[] tour, DistanceTable dt, double[] latencyArray) {
-		System.out.print("Best path found: ");
+		System.out.print("Percurso achado: ");
 		for (int i = 0; i < tour.length; i++) {
 			System.out.print(tour[i] + " ");
 		}
 		System.out.println(tour[0]);
 		
-		System.out.println("Cost of greedy Standard Latency: " + getTourLatency(tour,latencyArray));
-		System.out.println("Cost of greedy Standard path: " + getTourDist(tour, dt));
+		System.out.println("Latencia total do problema MLP por Algortimo guloso: " + getTourLatency(tour,latencyArray));
+		System.out.println("Distancia total do problema TSP por Algortimo guloso " + getTourDist(tour, dt));
 
 	}
 	
-	/*
-	 * public print
-	 */
+	// print publico
 	public void printSolution() {
 		printTour(path, dt, latencyArray);
 	}

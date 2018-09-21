@@ -1,10 +1,13 @@
-package algorithms.TSP;
+package algoMLP;
 
 import java.util.*;
 
 import problem.TSP.DistanceTable;
 import problem.TSP.TSPInstance;
 
+/**
+ * Chris Anderson, Chris Benton Algorithms - TSP Project
+ */
 public class ImprovedAlgorithm {
 
 	private TSPInstance tsp;
@@ -45,12 +48,12 @@ public class ImprovedAlgorithm {
 			}
 		}
 
-	System.out.println("Path generated from greedy and 2-opt pre-processing:");
-	printTour(bestPath, dt);
+//		System.out.println("Path generated from greedy and 2-opt pre-processing:");
+//		printTour(bestPath, dt);
 
 //		System.out.println("Path generated from simulated annealing:");
-		//bestPath = simulatedAnnealing(bestPath, dt, 10000, 0.005);
-		//printTour(bestPath, dt);
+		bestPath = simulatedAnnealing(bestPath, dt, 10000, 0.005);
+		printTour(bestPath, dt);
 	}
 
 	/*
