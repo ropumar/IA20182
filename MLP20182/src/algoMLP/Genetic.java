@@ -14,6 +14,8 @@ public class Genetic {
 	private int[] path;
 	private DistanceTable dt;
 	private List<Node> poolData = new ArrayList<>();
+	private List<Integer[]> poolInt = new ArrayList<>();
+	private List<double[]> pooldouble = new ArrayList<>();
 	private List<Node> ChildData = new ArrayList<>();
 	private int[] child1;
 	private int[] child2;
@@ -46,7 +48,8 @@ public class Genetic {
 //			System.out.println("proc aconteceu "+ i + "pool size " + poolData.size());
 //		}
 //		selectIndividuals(10);
-		return poolData.get(0).path;
+		int[] bestPath = toPrimitive(poolData.get(0).path);
+		return bestPath;
 	}
 	
 	private void GenerateIndividuals(int number){
@@ -55,13 +58,52 @@ public class Genetic {
 		System.out.println("Generated Random individuals ");
 		for (int i=0;i<number;i++) {
 			int[] poolTourTemp = shuffleArray(peep);
-			poolData.add(fillData(poolTourTemp));
-			for (int j=0; j<cities.length;j++)
-			System.out.println(poolData.get(i).path[j] + " | pool index:" +i);
+			Integer[] TourTempInteger = toObject(poolTourTemp);
+//			double [] latency = fillLatency(poolTourTemp);
+			poolData.add(fillData(TourTempInteger));
+//			poolInt.add(newObj);
+//			pooldouble.add(latency);
 		}
+//		System.out.println(" INT PRINT");
+//		for (int i=0;i<poolInt.size();i++) {
+//			for(int j=0;j<cities.length;j++) {
+//				System.out.print("[" + poolInt.get(i)[j] + "] ");
+//			}
+//			System.out.println("");
+//		}
+//		System.out.println("");
+//		System.out.println(" Double PRINT");
+//		for (int i=0;i<pooldouble.size();i++) {
+//			for(int j=0;j<cities.length;j++) {
+//				System.out.print("[" + pooldouble.get(i)[j] + "] ");
+//			}
+//			System.out.println("");
+//		}
+//		System.out.println("");
 	}
 	
-	private Node fillData(int[] tour) {
+	// Convert int[] to Integer[]
+	public static Integer[] toObject(int[] intArray) {
+
+		Integer[] result = new Integer[intArray.length];
+		for (int i = 0; i < intArray.length; i++) {
+			result[i] = Integer.valueOf(intArray[i]);
+		}
+		return result;
+
+	}
+	
+	// Convert Integer[] to int[]
+	public static int[] toPrimitive(Integer[] IntegerArray) {
+
+		int[] result = new int[IntegerArray.length];
+		for (int i = 0; i < IntegerArray.length; i++) {
+			result[i] = IntegerArray[i].intValue();
+		}
+		return result;
+	}
+	
+	private Node fillData(Integer[] tour) {
 		double [] latency = fillLatency(tour);
 		double totLatency = getTourLatency(tour,latency);
 		return new Node(tour,latency,totLatency);
@@ -93,10 +135,8 @@ public class Genetic {
 	}
 
 	private void PMXsex(int indexparent1, int indexparent2) {
-		int[] parent1 = new int[cities.length];
-		int[] parent2 = new int[cities.length];
-		parent1 =poolData.get(indexparent1).path;
-		parent2 = poolData.get(indexparent2).path;
+		int[] parent1 = toPrimitive(poolData.get(indexparent1).path);
+		int[] parent2 = toPrimitive(poolData.get(indexparent2).path);
 		System.out.println("Parent1");
 		for(int n=0;n<cities.length;n++) {
 
@@ -185,44 +225,46 @@ public class Genetic {
 //
 //			System.out.print(" " + child2[n]);
 //		}
-		ChildData.add(fillData(child1));
-		ChildData.add(fillData(child2));
+		Integer[] childInt1 = toObject(child1);
+		Integer[] childInt2 = toObject(child1);
+		ChildData.add(fillData(childInt1));
+		ChildData.add(fillData(childInt2));
 	}
 	
 	
-	private int[] generatesInversion(int index) {
-		int[] inversion = new int[cities.length];
-		int[] parent = poolData.get(index).path;
-		int m=0;
-		for (int i=1;i<cities.length;i++) {
-			inversion[i-1]=0;
-			m=1;
-			while (parent[m-1]!=i) {
-				if (parent[m-1]>i) {
-					inversion[i-1]=inversion[i-1]+1;
-				}
-				m++;
-			}
-		}
-		return inversion;
-	}
-	
-	private int[] generatesChild(int[] inversion, int index) {
-		int[] child = new int[cities.length];
-		int[] pos = new int[cities.length];
-		for (int i=cities.length;i>0;i--) {
-			for(int m=i+1;i<cities.length;i++) {
-				if (pos[m-1]>inversion[i-1]+1) {
-					pos[m-1]=pos[m-1]+1;
-				}
-				pos[i-1]=inversion[i-1]+1;
-			}
-		}
-		for (int i=1;i<cities.length;i++) {
-			child[pos[i-1]-1]=i;
-		}
-		return child;
-	}
+//	private int[] generatesInversion(int index) {
+//		int[] inversion = new int[cities.length];
+//		int[] parent = toPrimitive(poolData.get(index).path);
+//		int m=0;
+//		for (int i=1;i<cities.length;i++) {
+//			inversion[i-1]=0;
+//			m=1;
+//			while (parent[m-1]!=i) {
+//				if (parent[m-1]>i) {
+//					inversion[i-1]=inversion[i-1]+1;
+//				}
+//				m++;
+//			}
+//		}
+//		return inversion;
+//	}
+//	
+//	private int[] generatesChild(int[] inversion, int index) {
+//		int[] child = new int[cities.length];
+//		int[] pos = new int[cities.length];
+//		for (int i=cities.length;i>0;i--) {
+//			for(int m=i+1;i<cities.length;i++) {
+//				if (pos[m-1]>inversion[i-1]+1) {
+//					pos[m-1]=pos[m-1]+1;
+//				}
+//				pos[i-1]=inversion[i-1]+1;
+//			}
+//		}
+//		for (int i=1;i<cities.length;i++) {
+//			child[pos[i-1]-1]=i;
+//		}
+//		return child;
+//	}
 	
 	private void procriation() {
 		System.out.println("procriation start");
@@ -260,21 +302,21 @@ public class Genetic {
 	    return ar;
 	  }
 		// calcula distancia do percurso
-		private double[] fillLatency(int[] tour) {
+		private double[] fillLatency(Integer[] tourTempInteger) {
 			double dist = 0;
-			double[] latency = new double[tour.length];
+			double[] latency = new double[tourTempInteger.length];
 			latency[0]= 0;
-			for (int i = 1; i < tour.length - 1; i++) {
-				dist = dt.getDistanceBetween(tour[i-1], tour[i]);
+			for (int i = 1; i < tourTempInteger.length - 1; i++) {
+				dist = dt.getDistanceBetween(tourTempInteger[i-1], tourTempInteger[i]);
 				latency[i]= latency[i-1]+dist;
 			}
 			return latency;
 		}
 		// calcula latencia total do percurso
-		private static double getTourLatency(int[] tour, double[] latencyArray) {
+		private static double getTourLatency(Integer[] tourTempInteger, double[] latencyArray) {
 			double totlatency=0;
 			//System.out.println("Latencia");
-			for (int i = 0; i < tour.length - 1; i++) {
+			for (int i = 0; i < tourTempInteger.length - 1; i++) {
 				totlatency +=latencyArray[i];
 			//	System.out.print(latencyArray[tour[i]-1] + " ");
 			}

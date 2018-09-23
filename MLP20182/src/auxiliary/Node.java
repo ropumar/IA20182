@@ -2,10 +2,10 @@ package auxiliary;
 
 public class Node implements Comparable <Node>{
 	public double[] latency;
-	public int[] path;
+	public Integer[] path;
 	public double totalLatency;
-	public Node(int[] inputpath, double[] newLatency,double newTotalLatency) {
-		this.path = inputpath;
+	public Node(Integer[] tourInt, double[] newLatency,double newTotalLatency) {
+		this.path = tourInt;
 		this.latency =newLatency;
 		this.totalLatency=newTotalLatency;
 		System.out.println("Dentro de Node tour");
