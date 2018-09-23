@@ -6,9 +6,7 @@ import distanceformulas.TSP.DistanceFunction;
 import distanceformulas.TSP.EuclideanDistance;
 import distanceformulas.TSP.GeoDistance;
 
-/**
- * All possible edge weight types for TSP instances of TSPLib
- */
+
 
 public enum EdgeWeightType {
 	EXPLICIT, ATT, CEIL_2D, EUC_2D, GEO, MATRIX;

@@ -29,9 +29,8 @@ public class Genetic {
 		path = GeneticSolve(40);
 		latencyArray=fillLatency(path);
 //		if (distinctValues(path)) {
-//			System.out.println("O caminho possui todos os nos unicos entao deve estar CERTO");
-//		}
-		
+//		System.out.println("O caminho possui todos os nos unicos entao deve estar CERTO");
+//	}
 	}
 
 
@@ -53,6 +52,7 @@ public class Genetic {
 		sortRemoveDuplicates();
 //		selectIndividuals(3);
 //		printPool(poolData);
+
 		return poolData.get(0).path;
 	}
 	

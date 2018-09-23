@@ -60,23 +60,6 @@ public class VertexData extends DistanceTable {
 		return result;
 	}
 
-	@Override
-	public int[] getNeighborsOf(int vertex) {
-		int index = 0;
-		int[] neighbors = new int[size - 1];
-
-		if (!vertices.containsKey(vertex)) {
-			throw new IllegalArgumentException("vertex " + vertex + "does not exist");
-		}
-
-		for (Vertex v : vertices.values()) {
-			if (v.getID() != vertex) {
-				neighbors[index++] = v.getID();
-			}
-		}
-
-		return neighbors;
-	}
 
 	@Override
 	public double getDistanceBetween(int v1, int v2) {

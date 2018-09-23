@@ -5,9 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-/**
- * Class for loading and accessing the TSP instance problem
- */
 public class TSPInstance {
 
 	private String name;
