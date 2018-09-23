@@ -3,7 +3,7 @@ package algoMLP;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-import auxiliary.IndexDoubleTriple;
+import auxiliary.Node;
 import problem.TSP.DistanceTable;
 import problem.TSP.TSPInstance;
 
@@ -13,8 +13,8 @@ public class Genetic {
 	private double[] latencyArray;
 	private int[] path;
 	private DistanceTable dt;
-	private List<IndexDoubleTriple> poolData = new ArrayList<>();
-	private List<IndexDoubleTriple> ChildData = new ArrayList<>();
+	private List<Node> poolData = new ArrayList<>();
+	private List<Node> ChildData = new ArrayList<>();
 	private int[] child1;
 	private int[] child2;
 	
@@ -60,10 +60,10 @@ public class Genetic {
 		}
 	}
 	
-	private IndexDoubleTriple fillData(int[] poolTourTemp) {
+	private Node fillData(int[] poolTourTemp) {
 		double [] latency = fillLatency(poolTourTemp);
 		double totLatency = getTourLatency(poolTourTemp,latency);
-		return new IndexDoubleTriple(poolTourTemp,latency,totLatency);
+		return new Node(poolTourTemp,latency,totLatency);
 	}
 	
 	private void printPool() {
