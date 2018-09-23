@@ -1,13 +1,10 @@
 package algoMLP;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
 import auxiliary.Node;
 import problem.TSP.DistanceTable;
 import problem.TSP.TSPInstance;
-import sun.security.mscapi.PRNG;
 
 public class Genetic {
 	private TSPInstance tsp;
@@ -32,7 +29,7 @@ public class Genetic {
 		path = GeneticSolve(40);
 		latencyArray=fillLatency(path);
 //		if (distinctValues(path)) {
-//			System.out.println("O caminho possui todos os nos unicos entao deve estar certo");
+//			System.out.println("O caminho possui todos os nos unicos entao deve estar CERTO");
 //		}
 		
 	}
@@ -179,11 +176,18 @@ public class Genetic {
 				child2[i] = n2+1;
 			}
 		}
-		for( int i=0;i<(int)rand.nextInt(cities.length);i++) {
-//			System.out.println("Mutate "+ i);
-			mutate(child1);
-			mutate(child2);
-		}
+		int mutationrate=5;
+		if(numberOfGens>20) {
+			mutationrate=3;
+		} //because is better to do more mutation in the end
+		boolean prob = rand.nextInt(mutationrate)==0;
+	    if(!prob) {
+			for( int i=0;i<(int)rand.nextInt(cities.length)/3;i++) {
+//				System.out.println("Mutate "+ i);
+				mutate(child1);
+				mutate(child2);
+			}
+	    }
 
 		Integer[] childInt1 = toObject(child1);
 		Integer[] childInt2 = toObject(child2);
@@ -192,12 +196,7 @@ public class Genetic {
 	}
 	
 	private void mutate(int[] xmen) {
-		int mutationrate=5;
-		if(numberOfGens>20) {
-			mutationrate=3;
-		} //bcause is better to do more mutation in the end
-		boolean prob = rand.nextInt(mutationrate)==0;
-	    if(!prob) return;
+
 		//System.out.println("Mutate Actually happened");
         int bound = (xmen.length) - 1;
         int i = rand.nextInt(bound-2)+1;
@@ -331,11 +330,11 @@ public class Genetic {
 				System.out.print(path[i] + " ");
 			}
 			System.out.println(path[0]);
-			System.out.print("Latencia achada: ");
-			for (int i = 0; i < path.length - 1; i++) {
-				System.out.print(latencyArray[path[i]-1] + " ");
-			}
-			System.out.println("");
+//			System.out.print("Latencia achada: ");
+//			for (int i = 0; i < path.length - 1; i++) {
+//				System.out.print(latencyArray[path[i]-1] + " ");
+//			}
+//			System.out.println("");
 			System.out.println("Latencia total do problema MLP por Algortimo Genetico: " + getTourLatency(path,latencyArray));
 
 		}
