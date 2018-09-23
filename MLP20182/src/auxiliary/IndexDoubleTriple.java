@@ -7,9 +7,15 @@ public class IndexDoubleTriple implements Comparable <IndexDoubleTriple>{
 	public int[] tour;
 	public double totalLatency;
 	public IndexDoubleTriple(int[] newTour, double[] newLatency,double newTotalLatency) {
-		this.latency =newLatency;
 		this.tour = newTour;
+		this.latency =newLatency;
 		this.totalLatency=newTotalLatency;
+		System.out.println("Dentro do index");
+		for(int n=0;n<tour.length;n++) {
+
+			System.out.print(" " + tour[n]);
+		}
+		System.out.println("");
 	}
 
 	public int compareTo(IndexDoubleTriple value){

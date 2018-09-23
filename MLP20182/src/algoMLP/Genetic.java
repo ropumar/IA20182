@@ -15,6 +15,8 @@ public class Genetic {
 	private DistanceTable dt;
 	private List<IndexDoubleTriple> poolData = new ArrayList<>();
 	private List<IndexDoubleTriple> ChildData = new ArrayList<>();
+	private int[] child1;
+	private int[] child2;
 	
 
 	public Genetic(TSPInstance problem) throws Exception {
@@ -22,25 +24,28 @@ public class Genetic {
 		dt = tsp.getDistanceTable();
 		cities = dt.listVertices();
 		latencyArray = new double[cities.length];
+		child1= new int[cities.length];
+		child2= new int[cities.length];
 		path = GeneticSolve(1);
 		printPool();
 	}
 
 
 	public int[] GeneticSolve(int nGen) {
-		GenerateIndividuals(50);
-		for (int i=0; i<nGen;i++) {
-			selectIndividuals(10);
-			procriation();
-			int currSize = poolData.size();
-			poolData.clear();
-			for (int j=0;j<currSize;j++) {
-				poolData.add(ChildData.get(i));
-			}
-			System.out.println("");
-			System.out.println("proc aconteceu "+ i + "pool size " + poolData.size());
-		}
-		selectIndividuals(10);
+		GenerateIndividuals(3);
+//		for (int i=0; i<nGen;i++) {
+//			selectIndividuals(10);
+//			procriation();
+//			int currSize = poolData.size();
+//			poolData.clear();
+//			for (int j=0;j<currSize;j++) {
+//				poolData.add(ChildData.get(i));
+//			}
+//			ChildData.clear();
+//			System.out.println("");
+//			System.out.println("proc aconteceu "+ i + "pool size " + poolData.size());
+//		}
+//		selectIndividuals(10);
 		return poolData.get(0).tour;
 	}
 	
@@ -71,6 +76,7 @@ public class Genetic {
 			System.out.println(" ");
 			System.out.println("Total Latency:" + poolData.get(i).totalLatency + " | pool index:" +i);
 		}
+
 	}
 	
 	private void selectIndividuals(int nsurvivors){
@@ -85,9 +91,23 @@ public class Genetic {
 //		}
 	}
 
-	private void PMXsex(int indexparent1, int indexparent2, int[] child1, int[] child2) {
-		int[] parent1 = poolData.get(indexparent1).tour;
-		int[] parent2 = poolData.get(indexparent2).tour;
+	private void PMXsex(int indexparent1, int indexparent2) {
+		int[] parent1 = new int[cities.length];
+		int[] parent2 = new int[cities.length];
+		parent1 =poolData.get(indexparent1).tour;
+		parent2 = poolData.get(indexparent2).tour;
+		System.out.println("Parent1");
+		for(int n=0;n<cities.length;n++) {
+
+			System.out.print(" " + parent1[n]);
+		}
+		System.out.println("");
+		System.out.println("Parent2");
+		for(int n=0;n<cities.length;n++) {
+
+			System.out.print(" " + parent2[n]);
+		}
+		System.out.println("");
 		int[] replacement1 = new int[cities.length];
 		int[] replacement2 = new int[cities.length];
 		Arrays.fill(child1,0);
@@ -115,19 +135,19 @@ public class Genetic {
 			replacement1[parent2[k]-1] = parent1[k]-1;
 			replacement2[parent1[k]-1] = parent2[k]-1;
         }
-		System.out.println("CHILD start a end");
-		for(int n=0;n<cities.length;n++) {
-
-			System.out.print(" " + child1[n]);
-		}
-		System.out.println("");
-		System.out.println("REPLA1");
-		for(int n=0;n<cities.length;n++) {
-
-			System.out.print(" " + replacement1[n]);
-		}
-		System.out.println("");
-        System.out.println("CHILD1 DEPOIS");
+//		System.out.println("CHILD start a end");
+//		for(int n=0;n<cities.length;n++) {
+//
+//			System.out.print(" " + child1[n]);
+//		}
+//		System.out.println("");
+//		System.out.println("REPLA1");
+//		for(int n=0;n<cities.length;n++) {
+//
+//			System.out.print(" " + replacement1[n]);
+//		}
+//		System.out.println("");
+//        System.out.println("CHILD1 DEPOIS");
 		// fill in remaining slots with replacements
 		for (int i = 0; i < cities.length; i++) {
 			if ((i < start) || (i > end)) {
@@ -149,21 +169,23 @@ public class Genetic {
 
 				child1[i] = n1+1;
 				child2[i] = n2+1;
-				System.out.print(" " + child1[i]);
+//				System.out.print(" " + child1[i]);
 			}
 		}
-		System.out.println("");
-		System.out.println("CHILD1 listado");
-		for(int n=0;n<cities.length;n++) {
-
-			System.out.print(" " + child1[n]);
-		}
-		System.out.println("");
+//		System.out.println("");
+//		System.out.println("CHILD1 listado");
+//		for(int n=0;n<cities.length;n++) {
+//
+//			System.out.print(" " + child1[n]);
+//		}
+//		System.out.println("");
 //		System.out.println("CHILD2");
 //		for(int n=0;n<cities.length;n++) {
 //
 //			System.out.print(" " + child2[n]);
 //		}
+		ChildData.add(fillData(child1));
+		ChildData.add(fillData(child2));
 	}
 	
 	
@@ -203,15 +225,11 @@ public class Genetic {
 	
 	private void procriation() {
 		System.out.println("procriation start");
-		int[] child1 = new int[cities.length];
-		int[] child2 = new int[cities.length];
 		int k=0;
 		for (int i=0;i<poolData.size();i++) {
 			for(int j=0;j<poolData.size();j++) {
 				if(i!=j) {
-					PMXsex(i,j,child1,child2);
-					ChildData.add(fillData(child1));
-					ChildData.add(fillData(child2));
+					PMXsex(i,j);
 					System.out.println("TESTE CHILD no proc ");
 					for(int n=0;n<cities.length;n++) {
 
