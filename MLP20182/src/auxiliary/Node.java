@@ -17,4 +17,11 @@ public class Node implements Comparable <Node>{
 	          return 1;
 	    return 0;
 	}
+	
+	public boolean myEquals(Node value){
+		if (this.totalLatency ==value.totalLatency) {
+			return true;
+		}
+	    return false;
+	}
 }

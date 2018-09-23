@@ -2,6 +2,7 @@ package algoMLP;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import auxiliary.Node;
 import problem.TSP.DistanceTable;
@@ -26,7 +27,7 @@ public class Genetic {
 		latencyArray = new double[cities.length];
 		child1= new int[cities.length];
 		child2= new int[cities.length];
-		path = GeneticSolve(2);
+		path = GeneticSolve(30);
 		//printPool();
 	}
 
@@ -34,8 +35,10 @@ public class Genetic {
 	public int[] GeneticSolve(int nGen) {
 		GenerateIndividuals(50);
 		for (int i=0; i<nGen;i++) {
+			sortRemoveDuplicates();
+			System.out.println("Generation: " + i +" Numbers of individuals: " + poolData.size() + " best individual latency: "+poolData.get(0).totalLatency );
 			selectIndividuals(10);
-			printPool(poolData);
+			//printPool(poolData);
 			procriation();
 			poolData.clear();
 			for (int j=0;j<ChildData.size();j++) {
@@ -101,15 +104,22 @@ public class Genetic {
 	
 	
 	private void selectIndividuals(int nsurvivors){
-		System.out.println("Selected individuals ");
-		Collections.sort(poolData);
 		int lastindex=poolData.size();
 		for (int i=nsurvivors;i<lastindex;i++) {
 			poolData.remove(nsurvivors);
 		}
-//		for (int i=0;i<poolData.size();i++) {
-//			System.out.println("Total Latency:" + poolData.get(i).totalLatency + " | pool index:" +i);
-//		}
+	}
+	
+	private void sortRemoveDuplicates(){
+		System.out.println("Selected individuals ");
+		Collections.sort(poolData);
+		int j=0;
+		while (j<poolData.size()-1) 
+		{
+			if (poolData.get(j).myEquals(poolData.get(j+1))){
+				poolData.remove(j+1);
+			}else j++;
+		}
 	}
 
 	private void PMXsex(int indexparent1, int indexparent2) {
@@ -256,7 +266,7 @@ public class Genetic {
 //						System.out.print(" " + child1[n]);
 //					}
 //					System.out.println("");
-					System.out.println("procriation number "+ k +"Total Latency:" + ChildData.get(k).totalLatency);
+					//System.out.println("procriation number "+ k +"Total Latency:" + ChildData.get(k).totalLatency);
 					k++;
 				}
 			}
