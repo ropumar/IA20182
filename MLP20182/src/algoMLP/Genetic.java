@@ -56,14 +56,15 @@ public class Genetic {
 		for (int i=0;i<number;i++) {
 			int[] poolTourTemp = shuffleArray(peep);
 			poolData.add(fillData(poolTourTemp));
-			//System.out.println("Total Latency:" + poolData.get(i).totalLatency + " | pool index:" +i);
+			for (int j=0; j<cities.length;j++)
+			System.out.println(poolData.get(i).path[j] + " | pool index:" +i);
 		}
 	}
 	
-	private Node fillData(int[] poolTourTemp) {
-		double [] latency = fillLatency(poolTourTemp);
-		double totLatency = getTourLatency(poolTourTemp,latency);
-		return new Node(poolTourTemp,latency,totLatency);
+	private Node fillData(int[] tour) {
+		double [] latency = fillLatency(tour);
+		double totLatency = getTourLatency(tour,latency);
+		return new Node(tour,latency,totLatency);
 	}
 	
 	private void printPool() {
