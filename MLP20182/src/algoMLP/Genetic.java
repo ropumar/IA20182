@@ -1,7 +1,6 @@
 package algoMLP;
 
 import java.util.*;
-
 import auxiliary.Node;
 import problem.TSP.DistanceTable;
 import problem.TSP.TSPInstance;
@@ -56,47 +55,28 @@ public class Genetic {
 		return poolData.get(0).path;
 	}
 	
+	//Generate a total of [number] Random individuals and one gulosoMLP solution adding these to the list of nodes
 	private void GenerateIndividuals(int number){
 		int peep[] = new int[cities.length];
 		peep = cities.clone();
-		//System.out.println("Generated Random individuals ");
 		for (int i=0;i<number;i++) {
 			int[] poolTourTemp = shuffleArray(peep);
 			Integer[] TourTempInteger = toObject(poolTourTemp);
 			poolData.add(fillData(TourTempInteger));
 		}
-		int[] gulosoPath=getTourGuloso(0);
+		int[] gulosoPath=getTourGuloso();
 		Integer[] gulosoInteger = toObject(gulosoPath);
 		poolData.add(fillData(gulosoInteger));
 	}
 	
-	// Convert int[] to Integer[]
-	public static Integer[] toObject(int[] intArray) {
-
-		Integer[] result = new Integer[intArray.length];
-		for (int i = 0; i < intArray.length; i++) {
-			result[i] = Integer.valueOf(intArray[i]);
-		}
-		return result;
-
-	}
-	
-	// Convert Integer[] to int[]
-	public static int[] toPrimitive(Integer[] IntegerArray) {
-
-		int[] result = new int[IntegerArray.length];
-		for (int i = 0; i < IntegerArray.length; i++) {
-			result[i] = IntegerArray[i].intValue();
-		}
-		return result;
-	}
-	
+	//fills latency and total and return one the Node format
 	private Node fillData(Integer[] tour) {
 		double [] latency = fillLatency(tour);
 		double totalLatencythis = getTourLatency(tour,latency);
 		return new Node(tour,latency,totalLatencythis);
 	}
 	
+	//prints all pool of invividuals
 	private void printPool(List<Node> poolData) {
 		System.out.println(" ");
 		for (int i=0;i<poolData.size();i++) {
@@ -109,7 +89,7 @@ public class Genetic {
 		}
 	}
 	
-	
+	//select nsurivors individuals (to go to next generation)
 	private void selectIndividuals(int nsurvivors){
 		int lastindex=poolData.size();
 		for (int i=nsurvivors;i<lastindex;i++) {
@@ -117,6 +97,7 @@ public class Genetic {
 		}
 	}
 	
+	//sorts individuals for best total latency and removes duplicates
 	private void sortRemoveDuplicates(){
 		Collections.sort(poolData);
 		int j=0;
@@ -128,6 +109,8 @@ public class Genetic {
 		}
 	}
 
+	//does the genetic crossover PMX algorithm using a replacement vector
+	// fills child1 and child2 vectors, the result of crossover for each two parents
 	private void PMXsex(int[] parent1, int[] parent2) {
 		int[] replacement1 = new int[cities.length];
 		int[] replacement2 = new int[cities.length];
@@ -195,6 +178,7 @@ public class Genetic {
 		ChildData.add(fillData(childInt2));
 	}
 	
+	// mutates individuals, swapping two random nodes of a individual
 	private void mutate(int[] xmen) {
 
 		//System.out.println("Mutate Actually happened");
@@ -209,7 +193,7 @@ public class Genetic {
 		xmen[j]=temp;
 	}
 
-	
+	// couples each two diferent individuals of this generation as parents for PMX crossing by the PMX function call
 	private void procriation() {
 		for (int i=0;i<poolData.size();i++) {
 			for(int j=i+1;j<poolData.size();j++) {
@@ -225,6 +209,7 @@ public class Genetic {
 	}
 
 	// Fisher–Yates shuffle
+	//shuffles(random) a array of int[]
 	  private int[] shuffleArray(int[] ar)
 	  {
 	    for (int i = ar.length - 1; i > 1; i--)
@@ -257,13 +242,13 @@ public class Genetic {
 			return totlatency;
 		}
 		// agoritimo guloso
-		public int[] getTourGuloso(int start){
+		public int[] getTourGuloso(){
 			HashSet<Integer> unvisited = new HashSet<Integer>();
 			for (int i : cities)
 				unvisited.add(new Integer(i));
-			unvisited.remove(new Integer(cities[start]));
+			unvisited.remove(new Integer(cities[0]));
 			int[] tour = new int[cities.length];
-			tour[0] = cities[start];
+			tour[0] = cities[0];
 
 			for (int i = 1; i < tour.length; i++) {
 				int predecessor = tour[i - 1];
@@ -338,6 +323,8 @@ public class Genetic {
 			System.out.println("Latencia total do problema MLP por Algortimo Genetico: " + getTourLatency(path,latencyArray));
 
 		}
+		
+		//check if all values on a path are distintic, for debbuging purpourses
 		public static boolean distinctValues(Integer[] arr){
 		    for (int i = 0;i < arr.length-1; i++) {
 		        for (int j = i+1; j < arr.length; j++) {
@@ -347,6 +334,26 @@ public class Genetic {
 		        }
 		    }              
 		    return true;          
+		}
+		// Convert int[] to Integer[]
+		public static Integer[] toObject(int[] intArray) {
+
+			Integer[] result = new Integer[intArray.length];
+			for (int i = 0; i < intArray.length; i++) {
+				result[i] = Integer.valueOf(intArray[i]);
+			}
+			return result;
+
+		}
+		
+		// Convert Integer[] to int[]
+		public static int[] toPrimitive(Integer[] IntegerArray) {
+
+			int[] result = new int[IntegerArray.length];
+			for (int i = 0; i < IntegerArray.length; i++) {
+				result[i] = IntegerArray[i].intValue();
+			}
+			return result;
 		}
 		
 }

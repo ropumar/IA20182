@@ -19,17 +19,17 @@ public class GulosoMLP {
 		dt = tsp.getDistanceTable();
 		cities = dt.listVertices();
 		latencyArray = new double[cities.length];
-		path = getTourGuloso(0, cities, dt, latencyArray);
+		path = getTourGuloso();
 	}
 
 	// agoritimo guloso
-	public int[] getTourGuloso(int start, int[] cities, DistanceTable dt, double[] latencyArray){
+	public int[] getTourGuloso(){
 		HashSet<Integer> unvisited = new HashSet<Integer>();
 		for (int i : cities)
 			unvisited.add(new Integer(i));
-		unvisited.remove(new Integer(cities[start]));
+		unvisited.remove(new Integer(cities[0]));
 		int[] tour = new int[cities.length];
-		tour[0] = cities[start];
+		tour[0] = cities[0];
 		latencyArray[0]=0f;
 		for (int i = 1; i < tour.length; i++) {
 			int predecessor = tour[i - 1];

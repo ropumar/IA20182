@@ -8,18 +8,11 @@ import distanceformulas.TSP.DistanceFunction;
 import graph.TSP.Coord;
 import graph.TSP.Vertex;
 
-/**
- * Class loading, creating, and accessing Vertex data
- */
 public class VertexData extends DistanceTable {
 
 	private final int size;
 	private final DistanceFunction distanceFunction;
 	private final Map<Integer, Vertex> vertices;
-
-	public VertexData(int size, EdgeWeightType edgeWeightType) {
-		this(size, edgeWeightType.getDistanceFunction());
-	}
 
 	public VertexData(int size, DistanceFunction distanceFunction) {
 		super();
@@ -73,7 +66,6 @@ public class VertexData extends DistanceTable {
 		if (vertex2 == null) {
 			throw new IllegalArgumentException("vertex " + v2 + " does not exist");
 		}
-
 		return distanceFunction.distance(get(v1), get(v2));
 	}
 

@@ -10,7 +10,6 @@ public class TSPInstance {
 	private String name;
 	private String comment;
 	private int dimension;
-	private EdgeWeightType edgeWeightType;
 	private EdgeWeightFormat edgeWeightFormat;
 	private DistanceTable distanceTable;
 
@@ -42,10 +41,7 @@ public class TSPInstance {
 		while ((line = reader.readLine()) != null) {
 			line = line.trim();
 
-			if (line.equals("NODE_COORD_SECTION")) {
-				distanceTable = new VertexData(dimension, edgeWeightType);
-				distanceTable.load(reader);
-			} else if (line.equals("EDGE_WEIGHT_SECTION")) {
+			if (line.equals("EDGE_WEIGHT_SECTION")) {
 				distanceTable = new EdgeWeightMatrix(dimension, edgeWeightFormat);
 				distanceTable.load(reader);
 			} else if (line.equals("EOF")) {
@@ -71,8 +67,6 @@ public class TSPInstance {
 					}
 				} else if (key.equals("DIMENSION")) {
 					dimension = Integer.parseInt(value);
-				} else if (key.equals("EDGE_WEIGHT_TYPE")) {
-					edgeWeightType = EdgeWeightType.valueOf(value);
 				} else if (key.equals("EDGE_WEIGHT_FORMAT")) {
 					edgeWeightFormat = EdgeWeightFormat.valueOf(value);
 				}
@@ -91,10 +85,6 @@ public class TSPInstance {
 
 	public int getDimension() {
 		return dimension;
-	}
-
-	public EdgeWeightType getEdgeWeightType() {
-		return edgeWeightType;
 	}
 
 	public EdgeWeightFormat getEdgeWeightFormat() {
