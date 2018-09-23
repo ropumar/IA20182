@@ -26,8 +26,8 @@ public class Genetic {
 		latencyArray = new double[cities.length];
 		child1= new int[cities.length];
 		child2= new int[cities.length];
-		path = GeneticSolve(1);
-		printPool();
+		path = GeneticSolve(2);
+		//printPool();
 	}
 
 
@@ -35,14 +35,16 @@ public class Genetic {
 		GenerateIndividuals(50);
 		for (int i=0; i<nGen;i++) {
 			selectIndividuals(10);
+			printPool(poolData);
 			procriation();
-			int currSize = poolData.size();
 			poolData.clear();
-			for (int j=0;j<currSize;j++) {
-				poolData.add(ChildData.get(i));
+			for (int j=0;j<ChildData.size();j++) {
+				poolData.add(ChildData.get(j));
 			}
 			ChildData.clear();
 		}
+		selectIndividuals(3);
+		printPool(poolData);
 		int[] bestPath = toPrimitive(poolData.get(0).path);
 		return bestPath;
 	}
@@ -56,7 +58,6 @@ public class Genetic {
 			Integer[] TourTempInteger = toObject(poolTourTemp);
 			poolData.add(fillData(TourTempInteger));
 		}
-		printPool();
 	}
 	
 	// Convert int[] to Integer[]
@@ -86,7 +87,7 @@ public class Genetic {
 		return new Node(tour,latency,totLatency);
 	}
 	
-	private void printPool() {
+	private void printPool(List<Node> poolData) {
 		System.out.println(" ");
 		for (int i=0;i<poolData.size();i++) {
 			for(int j=0;j<cities.length;j++) {
@@ -96,8 +97,8 @@ public class Genetic {
 			System.out.println(" ");
 			System.out.println("Total Latency:" + poolData.get(i).totalLatency + " | pool index:" +i);
 		}
-
 	}
+	
 	
 	private void selectIndividuals(int nsurvivors){
 		System.out.println("Selected individuals ");
