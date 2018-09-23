@@ -2,11 +2,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import algoMLP.ImprovedAlgorithm;
 import problem.TSP.TSPInstance;
 import algoMLP.Genetic;
 import algoMLP.GulosoMLP;
-import algoMLP.GulosoMLPimproved;
 
 
 public class MLPMain {
@@ -16,10 +14,10 @@ public class MLPMain {
 		//adiciona problema MLP a lista de execucao
 		ArrayList<String> problemasMLP = new ArrayList<String>();
 		problemasMLP.add(new String("instancias/brazil58.tsp"));
-		//problemasMLP.add(new String("instancias/dantzig42.tsp"));
-		//problemasMLP.add(new String("instancias/gr120.tsp"));
-		//problemasMLP.add(new String("instancias/gr48.tsp"));
-		//problemasMLP.add(new String("instancias/pa561.tsp"));
+		problemasMLP.add(new String("instancias/dantzig42.tsp"));
+		problemasMLP.add(new String("instancias/gr120.tsp"));
+		problemasMLP.add(new String("instancias/gr48.tsp"));
+		problemasMLP.add(new String("instancias/pa561.tsp"));
 
 		 // lista melhores solucao e tempos de execucao
 
@@ -41,8 +39,6 @@ public class MLPMain {
 		for (String s : problemasMLP) {
 			tempoGuloso(s, bestLatency,avarageTimes);
 			tempoGenetic(s, bestLatency,avarageTimes);
-			//tempoGulosoImproved(s, bestLatency,avarageTimes);
-			//tempoIA(s, bestLatency, avarageTimes);
 		}
 
 	}
@@ -54,7 +50,7 @@ public class MLPMain {
 		GulosoMLP gulosoMLP;
 		TSPInstance tsp = new TSPInstance(new File(tspName));
 		System.out.println("Instancia: " + tspName + "------------------");
-		
+
 		System.out.println("Algoritimo Guloso");
 		startTime = System.nanoTime();
 		gulosoMLP = new GulosoMLP(tsp);
@@ -67,40 +63,21 @@ public class MLPMain {
 		System.out.println("Melhor latencia conhecida: " + bestLatency.get(tspName)+ "\n");
 	}
 	
-	// chamada solucao algortimo guloso improved
-	public static void tempoGulosoImproved(String tspName, HashMap<String, Integer> bestLatency, HashMap<String, Float> avarageTimes) throws Exception {
-		double ms;
-		long startTime, endTime, duration;
-		GulosoMLPimproved gulosoMLPimp;
-		TSPInstance tsp = new TSPInstance(new File(tspName));
-		System.out.println("Instancia: " + tspName + "------------------");
-		
-		System.out.println("Algoritimo Guloso improved");
-		startTime = System.nanoTime();
-		gulosoMLPimp = new GulosoMLPimproved(tsp);
-		endTime = System.nanoTime();
-		duration=(endTime - startTime);
-		ms = duration / 1000000.0;
-		gulosoMLPimp.printSolution();
-		System.out.println("Algoritimo Guloso improved time em ms: " + ms );
-		System.out.println("Tempo medio para solucao de melhor latencia conhecida em ms: " + avarageTimes.get(tspName)*1000 );
-		System.out.println("Melhor latencia conhecida: " + bestLatency.get(tspName)+ "\n");
-	}
-	
 	// chamada solucao algortimo IA
 	public static void tempoGenetic(String tspName, HashMap<String, Integer> bestLatency, HashMap<String, Float> avarageTimes) throws Exception {
 		double ms;
 		long startTime, endTime, duration;
-		
+		Genetic geneticMLP;
 		TSPInstance tsp = new TSPInstance(new File(tspName));
 		System.out.println("Instancia:" + tspName + "-----------------");
 
-		System.out.println("Improved Algorithm:");
+		System.out.println("Algoritimo genetico:");
 		startTime = System.nanoTime();	
-		Genetic ia = new Genetic(tsp);
+		geneticMLP = new Genetic(tsp);
 		endTime = System.nanoTime();
 		duration = (endTime - startTime);
 		ms = duration / 1000000.0;
+		geneticMLP.printSolution();
 		System.out.println("Algortimo em ms: " + ms);
 		System.out.println("Tempo medio para solucao de melhor latencia conhecida em ms: " + avarageTimes.get(tspName)*1000 );
 		System.out.println("Melhor latencia conhecida: " + bestLatency.get(tspName)+ "\n" );

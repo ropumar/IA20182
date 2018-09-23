@@ -52,9 +52,9 @@ public class GulosoMLP {
 	}
 
 	// calcula distancia do percurso
-	private static double getTourDist(int[] tour, DistanceTable dt) {
+	private  double getTourDist(int[] tour) {
 		double dist = 0;
-		for (int i = 0; i < tour.length - 1; i++) {
+		for (int i = 0; i < tour.length; i++) {
 			dist += dt.getDistanceBetween(tour[i], tour[i + 1]);
 		}
 		dist += dt.getDistanceBetween(tour[tour.length - 1], tour[0]);
@@ -64,31 +64,27 @@ public class GulosoMLP {
 	// calcula latencia total do percurso
 	private static double getTourLatency(int[] tour, double[] latencyArray) {
 		double totlatency=0;
-		System.out.println("Latencia");
-		for (int i = 0; i < tour.length - 1; i++) {
+		for (int i = 0; i < tour.length; i++) {
 			totlatency +=latencyArray[i];
-			System.out.print(latencyArray[tour[i]-1] + " ");
 		}
-		System.out.println("");
 		return totlatency;
 	}
 
 	//imprime percurso, latencia e distancia
-	private void printTour(int[] tour, DistanceTable dt, double[] latencyArray) {
-		System.out.print("Percurso achado: ");
-		for (int i = 0; i < tour.length; i++) {
-			System.out.print(tour[i] + " ");
-		}
-		System.out.println(tour[0]);
-		
-		System.out.println("Latencia total do problema MLP por Algortimo guloso: " + getTourLatency(tour,latencyArray));
-		System.out.println("Distancia total do problema TSP por Algortimo guloso " + getTourDist(tour, dt));
-
-	}
-	
-	// print publico
 	public void printSolution() {
-		printTour(path, dt, latencyArray);
+		System.out.print("Percurso achado: ");
+		for (int i = 0; i < path.length; i++) {
+			System.out.print(path[i] + " ");
+		}
+		System.out.println(path[0]);
+		System.out.print("Latencia achada: ");
+		for (int i = 0; i < path.length; i++) {
+			System.out.print(latencyArray[path[i]-1] + " ");
+		}
+		System.out.println("");
+		System.out.println("Latencia total do problema MLP por Algortimo guloso: " + getTourLatency(path,latencyArray));
+		//System.out.println("Distancia total do problema TSP por Algortimo guloso " + getTourDist(path));
+
 	}
 
 }
