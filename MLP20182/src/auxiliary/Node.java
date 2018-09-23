@@ -8,18 +8,6 @@ public class Node implements Comparable <Node>{
 		this.path = tourInt;
 		this.latency =newLatency;
 		this.totalLatency=newTotalLatency;
-		System.out.println("Dentro de Node tour");
-		for(int n=0;n<path.length;n++) {
-
-			System.out.print(" " + path[n]);
-		}
-		System.out.println("");
-		System.out.println("Dentro de Node latency");
-		for(int n=0;n<path.length;n++) {
-
-			System.out.print(" " + latency[n]);
-		}
-		System.out.println("");
 	}
 
 	public int compareTo(Node value){

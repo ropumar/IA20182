@@ -14,8 +14,6 @@ public class Genetic {
 	private int[] path;
 	private DistanceTable dt;
 	private List<Node> poolData = new ArrayList<>();
-	private List<Integer[]> poolInt = new ArrayList<>();
-	private List<double[]> pooldouble = new ArrayList<>();
 	private List<Node> ChildData = new ArrayList<>();
 	private int[] child1;
 	private int[] child2;
@@ -34,20 +32,17 @@ public class Genetic {
 
 
 	public int[] GeneticSolve(int nGen) {
-		GenerateIndividuals(3);
-//		for (int i=0; i<nGen;i++) {
-//			selectIndividuals(10);
-//			procriation();
-//			int currSize = poolData.size();
-//			poolData.clear();
-//			for (int j=0;j<currSize;j++) {
-//				poolData.add(ChildData.get(i));
-//			}
-//			ChildData.clear();
-//			System.out.println("");
-//			System.out.println("proc aconteceu "+ i + "pool size " + poolData.size());
-//		}
-//		selectIndividuals(10);
+		GenerateIndividuals(50);
+		for (int i=0; i<nGen;i++) {
+			selectIndividuals(10);
+			procriation();
+			int currSize = poolData.size();
+			poolData.clear();
+			for (int j=0;j<currSize;j++) {
+				poolData.add(ChildData.get(i));
+			}
+			ChildData.clear();
+		}
 		int[] bestPath = toPrimitive(poolData.get(0).path);
 		return bestPath;
 	}
@@ -59,27 +54,9 @@ public class Genetic {
 		for (int i=0;i<number;i++) {
 			int[] poolTourTemp = shuffleArray(peep);
 			Integer[] TourTempInteger = toObject(poolTourTemp);
-//			double [] latency = fillLatency(poolTourTemp);
 			poolData.add(fillData(TourTempInteger));
-//			poolInt.add(newObj);
-//			pooldouble.add(latency);
 		}
-//		System.out.println(" INT PRINT");
-//		for (int i=0;i<poolInt.size();i++) {
-//			for(int j=0;j<cities.length;j++) {
-//				System.out.print("[" + poolInt.get(i)[j] + "] ");
-//			}
-//			System.out.println("");
-//		}
-//		System.out.println("");
-//		System.out.println(" Double PRINT");
-//		for (int i=0;i<pooldouble.size();i++) {
-//			for(int j=0;j<cities.length;j++) {
-//				System.out.print("[" + pooldouble.get(i)[j] + "] ");
-//			}
-//			System.out.println("");
-//		}
-//		System.out.println("");
+		printPool();
 	}
 	
 	// Convert int[] to Integer[]
@@ -137,18 +114,18 @@ public class Genetic {
 	private void PMXsex(int indexparent1, int indexparent2) {
 		int[] parent1 = toPrimitive(poolData.get(indexparent1).path);
 		int[] parent2 = toPrimitive(poolData.get(indexparent2).path);
-		System.out.println("Parent1");
-		for(int n=0;n<cities.length;n++) {
-
-			System.out.print(" " + parent1[n]);
-		}
-		System.out.println("");
-		System.out.println("Parent2");
-		for(int n=0;n<cities.length;n++) {
-
-			System.out.print(" " + parent2[n]);
-		}
-		System.out.println("");
+//		System.out.println("Parent1");
+//		for(int n=0;n<cities.length;n++) {
+//
+//			System.out.print(" " + parent1[n]);
+//		}
+//		System.out.println("");
+//		System.out.println("Parent2");
+//		for(int n=0;n<cities.length;n++) {
+//
+//			System.out.print(" " + parent2[n]);
+//		}
+//		System.out.println("");
 		int[] replacement1 = new int[cities.length];
 		int[] replacement2 = new int[cities.length];
 		Arrays.fill(child1,0);
@@ -210,7 +187,6 @@ public class Genetic {
 
 				child1[i] = n1+1;
 				child2[i] = n2+1;
-//				System.out.print(" " + child1[i]);
 			}
 		}
 //		System.out.println("");
@@ -226,7 +202,7 @@ public class Genetic {
 //			System.out.print(" " + child2[n]);
 //		}
 		Integer[] childInt1 = toObject(child1);
-		Integer[] childInt2 = toObject(child1);
+		Integer[] childInt2 = toObject(child2);
 		ChildData.add(fillData(childInt1));
 		ChildData.add(fillData(childInt2));
 	}
@@ -273,14 +249,13 @@ public class Genetic {
 			for(int j=0;j<poolData.size();j++) {
 				if(i!=j) {
 					PMXsex(i,j);
-					System.out.println("TESTE CHILD no proc ");
-					for(int n=0;n<cities.length;n++) {
-
-						System.out.print(" " + child1[n]);
-					}
-					System.out.println("");
-					System.out.println("procriation number "+ k +"<-");
-					System.out.println("Total Latency:" + ChildData.get(k).totalLatency + " | pool index:" +k);
+//					System.out.println("TESTE CHILD no proc ");
+//					for(int n=0;n<cities.length;n++) {
+//
+//						System.out.print(" " + child1[n]);
+//					}
+//					System.out.println("");
+					System.out.println("procriation number "+ k +"Total Latency:" + ChildData.get(k).totalLatency);
 					k++;
 				}
 			}
