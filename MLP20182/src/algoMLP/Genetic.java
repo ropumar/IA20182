@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import auxiliary.Node;
 import problem.TSP.DistanceTable;
 import problem.TSP.TSPInstance;
+import sun.security.mscapi.PRNG;
 
 public class Genetic {
 	private TSPInstance tsp;
@@ -18,8 +19,8 @@ public class Genetic {
 	private List<Node> ChildData = new ArrayList<>();
 	private int[] child1;
 	private int[] child2;
-	
-
+	private Random rand = new Random();
+	private int numberOfGens;
 	public Genetic(TSPInstance problem) throws Exception {
 		this.tsp = problem;
 		dt = tsp.getDistanceTable();
@@ -27,7 +28,8 @@ public class Genetic {
 		latencyArray = new double[cities.length];
 		child1= new int[cities.length];
 		child2= new int[cities.length];
-		path = GeneticSolve(30);
+		numberOfGens=0;
+		path = GeneticSolve(40);
 		//printPool();
 	}
 
@@ -35,17 +37,19 @@ public class Genetic {
 	public int[] GeneticSolve(int nGen) {
 		GenerateIndividuals(50);
 		for (int i=0; i<nGen;i++) {
-			sortRemoveDuplicates();
+			numberOfGens++;
 			System.out.println("Generation: " + i +" Numbers of individuals: " + poolData.size() + " best individual latency: "+poolData.get(0).totalLatency );
-			selectIndividuals(10);
-			//printPool(poolData);
+			sortRemoveDuplicates();
+			selectIndividuals(20);
 			procriation();
-			poolData.clear();
+			sortRemoveDuplicates();
+			selectIndividuals(3);//keep only best parents for next generation, killing others	
 			for (int j=0;j<ChildData.size();j++) {
-				poolData.add(ChildData.get(j));
+				poolData.add(ChildData.get(j));	//new childs are adults added to genetic pool
 			}
-			ChildData.clear();
+			ChildData.clear(); //childs are adults, remove then from child list
 		}
+		sortRemoveDuplicates();
 		selectIndividuals(3);
 		printPool(poolData);
 		int[] bestPath = toPrimitive(poolData.get(0).path);
@@ -61,6 +65,10 @@ public class Genetic {
 			Integer[] TourTempInteger = toObject(poolTourTemp);
 			poolData.add(fillData(TourTempInteger));
 		}
+
+		int[] gulosoPath=getTourGuloso(0, cities, dt, latencyArray);
+		Integer[] gulosoInteger = toObject(gulosoPath);
+		poolData.add(fillData(gulosoInteger));
 	}
 	
 	// Convert int[] to Integer[]
@@ -111,7 +119,6 @@ public class Genetic {
 	}
 	
 	private void sortRemoveDuplicates(){
-		System.out.println("Selected individuals ");
 		Collections.sort(poolData);
 		int j=0;
 		while (j<poolData.size()-1) 
@@ -123,34 +130,28 @@ public class Genetic {
 	}
 
 	private void PMXsex(int indexparent1, int indexparent2) {
+		if (poolData.get(indexparent1).totalLatency == poolData.get(indexparent2).totalLatency) {
+			System.out.println("Pais iguais");
+			for(int j=0;j<cities.length;j++) {
+				System.out.print("[" + poolData.get(indexparent1).path[j] + " , "+ poolData.get(indexparent1).latency[j] + "] ");
+			}
+			System.out.println("");
+			return;
+		} //remove esse if
 		int[] parent1 = toPrimitive(poolData.get(indexparent1).path);
 		int[] parent2 = toPrimitive(poolData.get(indexparent2).path);
-//		System.out.println("Parent1");
-//		for(int n=0;n<cities.length;n++) {
-//
-//			System.out.print(" " + parent1[n]);
-//		}
-//		System.out.println("");
-//		System.out.println("Parent2");
-//		for(int n=0;n<cities.length;n++) {
-//
-//			System.out.print(" " + parent2[n]);
-//		}
-//		System.out.println("");
 		int[] replacement1 = new int[cities.length];
 		int[] replacement2 = new int[cities.length];
 		Arrays.fill(child1,0);
 		Arrays.fill(child2,0);
 		Arrays.fill(replacement1, -1);
 		Arrays.fill(replacement2, -1);
-        Random firstRNum  = new Random();
-        Random secondRNum = new Random();
         
         int bound = (cities.length) - 1;
 
         //select segment cutofpoints
-        int number1 = firstRNum.nextInt(bound-1);
-        int number2 = secondRNum.nextInt(bound);
+        int number1 = rand.nextInt(bound-1);
+        int number2 = rand.nextInt(bound);
         if(number1 == number2){
         	number2 = number1+1;
         }
@@ -164,20 +165,6 @@ public class Genetic {
 			replacement1[parent2[k]-1] = parent1[k]-1;
 			replacement2[parent1[k]-1] = parent2[k]-1;
         }
-//		System.out.println("CHILD start a end");
-//		for(int n=0;n<cities.length;n++) {
-//
-//			System.out.print(" " + child1[n]);
-//		}
-//		System.out.println("");
-//		System.out.println("REPLA1");
-//		for(int n=0;n<cities.length;n++) {
-//
-//			System.out.print(" " + replacement1[n]);
-//		}
-//		System.out.println("");
-//        System.out.println("CHILD1 DEPOIS");
-		// fill in remaining slots with replacements
 		for (int i = 0; i < cities.length; i++) {
 			if ((i < start) || (i > end)) {
 				int n1 = parent1[i]-1;
@@ -200,24 +187,36 @@ public class Genetic {
 				child2[i] = n2+1;
 			}
 		}
-//		System.out.println("");
-//		System.out.println("CHILD1 listado");
-//		for(int n=0;n<cities.length;n++) {
-//
-//			System.out.print(" " + child1[n]);
-//		}
-//		System.out.println("");
-//		System.out.println("CHILD2");
-//		for(int n=0;n<cities.length;n++) {
-//
-//			System.out.print(" " + child2[n]);
-//		}
+		for( int i=0;i<(int)rand.nextInt(cities.length)/5;i++) {
+			//System.out.println("Mutate "+ i);
+			mutate(child1);
+			mutate(child2);
+		}
+
 		Integer[] childInt1 = toObject(child1);
 		Integer[] childInt2 = toObject(child2);
 		ChildData.add(fillData(childInt1));
 		ChildData.add(fillData(childInt2));
 	}
 	
+	private void mutate(int[] xmen) {
+		int mutationrate=5;
+		if(numberOfGens>20) {
+			mutationrate=3;
+		} //bcause is better to do more mutation in the end
+		boolean prob = rand.nextInt(mutationrate)==0;
+	    if(!prob) return;
+		//System.out.println("Mutate Actually happened");
+        int bound = (xmen.length) - 1;
+        int i = rand.nextInt(bound-1);
+        int j = rand.nextInt(bound);
+        if(i == j){
+        	j = i+1;
+        }
+		int temp=xmen[i];
+		xmen[i]=xmen[j];
+		xmen[j]=temp;
+	}
 	
 //	private int[] generatesInversion(int index) {
 //		int[] inversion = new int[cities.length];
@@ -254,32 +253,21 @@ public class Genetic {
 //	}
 	
 	private void procriation() {
-		System.out.println("procriation start");
-		int k=0;
 		for (int i=0;i<poolData.size();i++) {
-			for(int j=0;j<poolData.size();j++) {
+			for(int j=i+1;j<poolData.size();j++) {
 				if(i!=j) {
 					PMXsex(i,j);
-//					System.out.println("TESTE CHILD no proc ");
-//					for(int n=0;n<cities.length;n++) {
-//
-//						System.out.print(" " + child1[n]);
-//					}
-//					System.out.println("");
-					//System.out.println("procriation number "+ k +"Total Latency:" + ChildData.get(k).totalLatency);
-					k++;
 				}
 			}
 		}
 	}
 
 	// Fisher–Yates shuffle
-	  static int[] shuffleArray(int[] ar)
+	  private int[] shuffleArray(int[] ar)
 	  {
-	    Random rnd = ThreadLocalRandom.current();
 	    for (int i = ar.length - 1; i > 1; i--)
 	    {
-	      int index = rnd.nextInt(i + 1);
+	      int index = rand.nextInt(i + 1);
 	      if (index==0) continue; //pois o primeiro noh eh sempre o noh 1
 	      int a = ar[index];
 	      ar[index] = ar[i];
@@ -309,5 +297,32 @@ public class Genetic {
 //			System.out.println("");
 			return totlatency;
 		}
-	
+		// agoritimo guloso
+		public int[] getTourGuloso(int start, int[] cities, DistanceTable dt, double[] latencyArray){
+			HashSet<Integer> unvisited = new HashSet<Integer>();
+			for (int i : cities)
+				unvisited.add(new Integer(i));
+			unvisited.remove(new Integer(cities[start]));
+			int[] tour = new int[cities.length];
+			tour[0] = cities[start];
+			latencyArray[0]=0f;
+			for (int i = 1; i < tour.length; i++) {
+				int predecessor = tour[i - 1];
+				double minDist = Double.MAX_VALUE;
+				int nextCity = -1;
+				// vizinho mais proximo
+				for (Integer city : unvisited) {
+					int currCity = city.intValue();
+					double dist = dt.getDistanceBetween(predecessor, currCity);
+					if (dist < minDist) {
+						minDist = dist;
+						nextCity = currCity;
+					}
+				}
+				tour[i] = nextCity;
+				latencyArray[nextCity-1]=latencyArray[predecessor-1] + minDist;
+				unvisited.remove(new Integer(nextCity));
+			}
+			return tour;
+		}
 }

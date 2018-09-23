@@ -14,18 +14,16 @@ public class GulosoMLP {
 
 	//Controi instancia do problema MLP e aplica algoritimo guloso
 
-	public GulosoMLP(TSPInstance problem) throws Exception {
+	public GulosoMLP(TSPInstance problem){
 		this.tsp = problem;
 		dt = tsp.getDistanceTable();
 		cities = dt.listVertices();
 		latencyArray = new double[cities.length];
-		path = getGreedyTour(0, cities, dt, latencyArray);
+		path = getTourGuloso(0, cities, dt, latencyArray);
 	}
 
 	// agoritimo guloso
-	public int[] getGreedyTour(int start, int[] cities, DistanceTable dt, double[] latencyArray) throws Exception {
-		if (start > cities.length)
-			throw new Exception();
+	public int[] getTourGuloso(int start, int[] cities, DistanceTable dt, double[] latencyArray){
 		HashSet<Integer> unvisited = new HashSet<Integer>();
 		for (int i : cities)
 			unvisited.add(new Integer(i));
