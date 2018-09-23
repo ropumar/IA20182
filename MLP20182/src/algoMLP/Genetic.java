@@ -46,7 +46,7 @@ public class Genetic {
 //			System.out.println("proc aconteceu "+ i + "pool size " + poolData.size());
 //		}
 //		selectIndividuals(10);
-		return poolData.get(0).tour;
+		return poolData.get(0).path;
 	}
 	
 	private void GenerateIndividuals(int number){
@@ -71,7 +71,7 @@ public class Genetic {
 		for (int i=0;i<poolData.size();i++) {
 			for(int j=0;j<cities.length;j++) {
 
-				System.out.print("[" + poolData.get(i).tour[j] + " , "+ poolData.get(i).latency[j] + "] ");
+				System.out.print("[" + poolData.get(i).path[j] + " , "+ poolData.get(i).latency[j] + "] ");
 			}
 			System.out.println(" ");
 			System.out.println("Total Latency:" + poolData.get(i).totalLatency + " | pool index:" +i);
@@ -94,8 +94,8 @@ public class Genetic {
 	private void PMXsex(int indexparent1, int indexparent2) {
 		int[] parent1 = new int[cities.length];
 		int[] parent2 = new int[cities.length];
-		parent1 =poolData.get(indexparent1).tour;
-		parent2 = poolData.get(indexparent2).tour;
+		parent1 =poolData.get(indexparent1).path;
+		parent2 = poolData.get(indexparent2).path;
 		System.out.println("Parent1");
 		for(int n=0;n<cities.length;n++) {
 
@@ -191,7 +191,7 @@ public class Genetic {
 	
 	private int[] generatesInversion(int index) {
 		int[] inversion = new int[cities.length];
-		int[] parent = poolData.get(index).tour;
+		int[] parent = poolData.get(index).path;
 		int m=0;
 		for (int i=1;i<cities.length;i++) {
 			inversion[i-1]=0;
