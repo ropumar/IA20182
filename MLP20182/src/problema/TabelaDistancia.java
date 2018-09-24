@@ -1,11 +1,11 @@
-package problem.TSP;
+package problema;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public abstract class DistanceTable {
+public abstract class TabelaDistancia {
 
-	public DistanceTable() {
+	public TabelaDistancia() {
 		super();
 	}
 

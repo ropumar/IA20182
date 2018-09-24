@@ -1,23 +1,23 @@
-package problem.TSP;
+package problema;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class TSPInstance {
+public class InstanciaTSP {
 
 	private String name;
 	private String comment;
 	private int dimension;
-	private EdgeWeightFormat edgeWeightFormat;
-	private DistanceTable distanceTable;
+	private FormatPesoAresta formatPesoAresta;
+	private TabelaDistancia tabelaDistancia;
 
-	public TSPInstance() {
+	public InstanciaTSP() {
 		super();
 	}
 
-	public TSPInstance(File file) throws IOException {
+	public InstanciaTSP(File file) throws IOException {
 		this();
 		load(file);
 	}
@@ -42,8 +42,8 @@ public class TSPInstance {
 			line = line.trim();
 
 			if (line.equals("EDGE_WEIGHT_SECTION")) {
-				distanceTable = new EdgeWeightMatrix(dimension, edgeWeightFormat);
-				distanceTable.load(reader);
+				tabelaDistancia = new MatrizPesoAresta(dimension, formatPesoAresta);
+				tabelaDistancia.load(reader);
 			} else if (line.equals("EOF")) {
 				break;
 			} else if (line.equals("DISPLAY_DATA_SECTION")) {
@@ -68,7 +68,7 @@ public class TSPInstance {
 				} else if (key.equals("DIMENSION")) {
 					dimension = Integer.parseInt(value);
 				} else if (key.equals("EDGE_WEIGHT_FORMAT")) {
-					edgeWeightFormat = EdgeWeightFormat.valueOf(value);
+					formatPesoAresta = FormatPesoAresta.valueOf(value);
 				}
 			}
 		}
@@ -87,12 +87,12 @@ public class TSPInstance {
 		return dimension;
 	}
 
-	public EdgeWeightFormat getEdgeWeightFormat() {
-		return edgeWeightFormat;
+	public FormatPesoAresta getEdgeWeightFormat() {
+		return formatPesoAresta;
 	}
 
-	public DistanceTable getDistanceTable() {
-		return distanceTable;
+	public TabelaDistancia getDistanceTable() {
+		return tabelaDistancia;
 	}
 
 	public String printMatrix() {
@@ -100,7 +100,7 @@ public class TSPInstance {
 
 		for (int row = 0; row < dimension; row++) {
 			for (int col = 0; col < dimension; col++) {
-				result += String.format("%" + -8 + "s", distanceTable.getDistanceBetween(row + 1, col + 1));
+				result += String.format("%" + -8 + "s", tabelaDistancia.getDistanceBetween(row + 1, col + 1));
 			}
 			result += "\n";
 		}

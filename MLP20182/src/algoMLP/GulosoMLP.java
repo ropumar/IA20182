@@ -1,20 +1,21 @@
 package algoMLP;
 
 import java.util.HashSet;
-import problem.TSP.DistanceTable;
-import problem.TSP.TSPInstance;
+
+import problema.TabelaDistancia;
+import problema.InstanciaTSP;
 
 public class GulosoMLP {
 
-	private TSPInstance tsp;
+	private InstanciaTSP tsp;
 	private int[] cities;
 	private double[] latencyArray;
 	private int[] path;
-	private DistanceTable dt;
+	private TabelaDistancia dt;
 
 	//Controi instancia do problema MLP e aplica algoritimo guloso
 
-	public GulosoMLP(TSPInstance problem){
+	public GulosoMLP(InstanciaTSP problem){
 		this.tsp = problem;
 		dt = tsp.getDistanceTable();
 		cities = dt.listVertices();

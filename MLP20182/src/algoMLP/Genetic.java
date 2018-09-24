@@ -2,15 +2,15 @@ package algoMLP;
 
 import java.util.*;
 import auxiliary.Node;
-import problem.TSP.DistanceTable;
-import problem.TSP.TSPInstance;
+import problema.TabelaDistancia;
+import problema.InstanciaTSP;
 
 public class Genetic {
-	private TSPInstance tsp;
+	private InstanciaTSP tsp;
 	private int[] cities;
 	private double[] latencyArray;
 	private Integer[] path;
-	private DistanceTable dt;
+	private TabelaDistancia dt;
 	private List<Node> poolData = new ArrayList<>();
 	private List<Node> ChildData = new ArrayList<>();
 	private int[] child1;
@@ -18,7 +18,7 @@ public class Genetic {
 	private Random rand = new Random();
 	private int numberOfGens;
 	private int capableparents=20;
-	public Genetic(TSPInstance problem) throws Exception {
+	public Genetic(InstanciaTSP problem) throws Exception {
 		this.tsp = problem;
 		dt = tsp.getDistanceTable();
 		cities = dt.listVertices();

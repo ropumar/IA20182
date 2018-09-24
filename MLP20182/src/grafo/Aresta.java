@@ -1,14 +1,14 @@
-package graph.TSP;
+package grafo;
 
 /**
  * Definition of an edge
  */
-public class Edge {
+public class Aresta {
 
 	private final double V1;
 	private final double V2;
 
-	public Edge(double v1, double v2) {
+	public Aresta(double v1, double v2) {
 		super();
 		this.V1 = v1;
 		this.V2 = v2;
@@ -50,7 +50,7 @@ public class Edge {
 			return false;
 		}
 
-		Edge other = (Edge) obj;
+		Aresta other = (Aresta) obj;
 
 		return ((V1 == other.V1) && (V2 == other.V2)) || ((V1 == other.V2) && (V2 == other.V1));
 	}

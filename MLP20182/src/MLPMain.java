@@ -2,9 +2,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import problem.TSP.TSPInstance;
 import algoMLP.Genetic;
 import algoMLP.GulosoMLP;
+import problema.InstanciaTSP;
 
 
 public class MLPMain {
@@ -48,7 +48,7 @@ public class MLPMain {
 		double ms;
 		long startTime, endTime, duration;
 		GulosoMLP gulosoMLP;
-		TSPInstance tsp = new TSPInstance(new File(tspName));
+		InstanciaTSP tsp = new InstanciaTSP(new File(tspName));
 		System.out.println("Algoritimo Guloso" + "------------------"+ "Instancia: " + tspName );
 
 		startTime = System.nanoTime();
@@ -68,7 +68,7 @@ public class MLPMain {
 		double ms;
 		long startTime, endTime, duration;
 		Genetic geneticMLP;
-		TSPInstance tsp = new TSPInstance(new File(tspName));
+		InstanciaTSP tsp = new InstanciaTSP(new File(tspName));
 		System.out.println("Algoritimo genetico:"+ "------------------"+ "Instancia: " + tspName );
 		
 		startTime = System.nanoTime();	

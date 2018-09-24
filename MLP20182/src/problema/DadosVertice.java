@@ -1,31 +1,31 @@
-package problem.TSP;
+package problema;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import distanceformulas.TSP.DistanceFunction;
-import graph.TSP.Coord;
-import graph.TSP.Vertex;
+import distancias.FuncaoDistancia;
+import grafo.Coordenada;
+import grafo.Vertice;
 
-public class VertexData extends DistanceTable {
+public class DadosVertice extends TabelaDistancia {
 
 	private final int size;
-	private final DistanceFunction distanceFunction;
-	private final Map<Integer, Vertex> vertices;
+	private final FuncaoDistancia funcaoDistancia;
+	private final Map<Integer, Vertice> vertices;
 
-	public VertexData(int size, DistanceFunction distanceFunction) {
+	public DadosVertice(int size, FuncaoDistancia funcaoDistancia) {
 		super();
 		this.size = size;
-		this.distanceFunction = distanceFunction;
-		vertices = new HashMap<Integer, Vertex>();
+		this.funcaoDistancia = funcaoDistancia;
+		vertices = new HashMap<Integer, Vertice>();
 	}
 
-	protected void add(Vertex vertex) {
-		vertices.put(vertex.getID(), vertex);
+	protected void add(Vertice vertice) {
+		vertices.put(vertice.getID(), vertice);
 	}
 
-	public Vertex get(int vertex) {
+	public Vertice get(int vertex) {
 		return vertices.get(vertex);
 	}
 
@@ -46,7 +46,7 @@ public class VertexData extends DistanceTable {
 		int index = 0;
 		int[] result = new int[size];
 
-		for (Vertex v : vertices.values()) {
+		for (Vertice v : vertices.values()) {
 			result[index++] = v.getID();
 		}
 
@@ -55,8 +55,8 @@ public class VertexData extends DistanceTable {
 
 
 	public double getDistanceBetween(int v1, int v2) {
-		Vertex vertex1 = get(v1);
-		Vertex vertex2 = get(v2);
+		Vertice vertex1 = get(v1);
+		Vertice vertex2 = get(v2);
 
 		if (vertex1 == null) {
 			throw new IllegalArgumentException("vertex " + v1 + " does not exist");
@@ -66,7 +66,7 @@ public class VertexData extends DistanceTable {
 			throw new IllegalArgumentException("vertex " + v2 + " does not exist");
 		}
 		
-		return distanceFunction.distance(get(v1), get(v2));
+		return funcaoDistancia.distance(get(v1), get(v2));
 	}
 
 
@@ -80,9 +80,9 @@ public class VertexData extends DistanceTable {
 			}
 
 			int vertex = Integer.parseInt(tokens[0]);
-			Coord coord = new Coord(Double.parseDouble(tokens[1]), Double.parseDouble(tokens[2]));
+			Coordenada coordenada = new Coordenada(Double.parseDouble(tokens[1]), Double.parseDouble(tokens[2]));
 
-			add(new Vertex(vertex, coord));
+			add(new Vertice(vertex, coordenada));
 		}
 	}
 
@@ -90,7 +90,7 @@ public class VertexData extends DistanceTable {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
-		for (Vertex v : vertices.values()) {
+		for (Vertice v : vertices.values()) {
 			sb.append(v.toString());
 			sb.append('\n');
 		}

@@ -1,33 +1,33 @@
-package graph.TSP;
+package grafo;
 
 /**
  * Definition of vertex
  */
-public class Vertex {
+public class Vertice {
 	
 	private final int ID;
-	private final Coord coord;
+	private final Coordenada coordenada;
 	
-	public Vertex(int v, Coord c) {
+	public Vertice(int v, Coordenada c) {
 		super();
 		this.ID = v;
-		this.coord = c;
+		this.coordenada = c;
 	}
 	
 	public int getID() {
 		return this.ID;
 	}
 	
-	public Coord getCoord() {
-		return this.coord;
+	public Coordenada getCoord() {
+		return this.coordenada;
 	}
 	
-	@Override
+
 	public String toString() {
-		return this.ID + ": " + this.coord.toString();
+		return this.ID + ": " + this.coordenada.toString();
 	}
 	
-	@Override
+	
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
@@ -41,13 +41,13 @@ public class Vertex {
 			return false;
 		}
 		
-		Vertex other = (Vertex) obj;
+		Vertice other = (Vertice) obj;
 		
 		if (ID != other.ID) {
 			return false;
 		}
 		
-		if (!coord.equals(other.coord)) {
+		if (!coordenada.equals(other.coordenada)) {
 			return false;
 		}
 		

@@ -1,24 +1,24 @@
-package graph.TSP;
+package grafo;
 
 /**
  * 
  * Definition for Coordinates, to be used at vertices
  */
-public class Coord {
+public class Coordenada {
 
 	private final double X;
 	private final double Y;
 
-	public Coord() {
+	public Coordenada() {
 		this(0, 0);
 	}
 
-	public Coord(int x, int y) {
+	public Coordenada(int x, int y) {
 		this.X = (double) x;
 		this.Y = (double) y;
 	}
 
-	public Coord(double x, double y) {
+	public Coordenada(double x, double y) {
 		this.X = x;
 		this.Y = y;
 	}
@@ -50,7 +50,7 @@ public class Coord {
 			return false;
 		}
 
-		Coord other = (Coord) obj;
+		Coordenada other = (Coordenada) obj;
 
 		if (X != other.X) {
 			return false;

@@ -1,17 +1,17 @@
-package problem.TSP;
+package problema;
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class EdgeWeightMatrix extends DistanceTable {
+public class MatrizPesoAresta extends TabelaDistancia {
 	
 	private final int size;
-	private final EdgeWeightFormat format;
+	private final FormatPesoAresta format;
 	private final double[][] matrix;
 	
-	public EdgeWeightMatrix(int size, EdgeWeightFormat format) {
+	public MatrizPesoAresta(int size, FormatPesoAresta format) {
 		super();
 		this.size = size;
 		this.format = format;
