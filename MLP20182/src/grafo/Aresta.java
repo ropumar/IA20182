@@ -22,20 +22,6 @@ public class Aresta {
 		return V2;
 	}
 
-	public boolean hasEndpoint(int v) {
-		return (v == V1) || (v == V2);
-	}
-
-	public double getOppositeEndpoint(double v) {
-		if (v == V1) {
-			return V2;
-		} else if (v == V2) {
-			return V1;
-		} else {
-			throw new IllegalArgumentException("edge does not have endpoint " + v);
-		}
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {

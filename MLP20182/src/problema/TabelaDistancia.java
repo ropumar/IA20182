@@ -12,7 +12,7 @@ public abstract class TabelaDistancia {
 	public abstract int[] listVertices();
 
 
-	public abstract double getDistanceBetween(int id1, int id2);
+	public abstract double getArestaEntreVertices(int id1, int id2);
 
 	public abstract void load(BufferedReader reader) throws IOException;
 

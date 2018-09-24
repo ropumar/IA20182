@@ -39,7 +39,7 @@ public class GulosoMLP {
 			// vizinho mais proximo
 			for (Integer city : unvisited) {
 				int currCity = city.intValue();
-				double dist = dt.getDistanceBetween(predecessor, currCity);
+				double dist = dt.getArestaEntreVertices(predecessor, currCity);
 				if (dist < minDist) {
 					minDist = dist;
 					nextCity = currCity;
@@ -56,9 +56,9 @@ public class GulosoMLP {
 	private  double getTourDist(int[] tour) {
 		double dist = 0;
 		for (int i = 0; i < tour.length; i++) {
-			dist += dt.getDistanceBetween(tour[i], tour[i + 1]);
+			dist += dt.getArestaEntreVertices(tour[i], tour[i + 1]);
 		}
-		dist += dt.getDistanceBetween(tour[tour.length - 1], tour[0]);
+		dist += dt.getArestaEntreVertices(tour[tour.length - 1], tour[0]);
 		return dist;
 	}
 	

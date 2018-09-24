@@ -5,13 +5,13 @@ import grafo.Vertice;
 public abstract class FuncaoDistancia {
 	
 	
-	public double distance(Vertice v1, Vertice v2) {
+	public double distancia(Vertice v1, Vertice v2) {
 		Coordenada c1 = v1.getCoord();
 		Coordenada c2 = v2.getCoord();
 		
-		return distance(c1, c2);
+		return distancia(c1, c2);
 	}
 	
-	public abstract int distance(Coordenada c1, Coordenada c2);
+	public abstract int distancia(Coordenada c1, Coordenada c2);
 	
 }

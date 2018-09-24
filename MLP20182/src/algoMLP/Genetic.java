@@ -235,7 +235,7 @@ public class Genetic {
 			double[] latency = new double[tourTempInteger.length];
 			latency[0]= 0;
 			for (int i = 1; i < tourTempInteger.length; i++) {
-				dist = dt.getDistanceBetween(tourTempInteger[i-1], tourTempInteger[i]);
+				dist = dt.getArestaEntreVertices(tourTempInteger[i-1], tourTempInteger[i]);
 				latency[tourTempInteger[i]-1]=latency[tourTempInteger[i-1]-1] + dist;
 			}
 			return latency;
@@ -264,7 +264,7 @@ public class Genetic {
 				// vizinho mais proximo
 				for (Integer city : unvisited) {
 					int currCity = city.intValue();
-					double dist = dt.getDistanceBetween(predecessor, currCity);
+					double dist = dt.getArestaEntreVertices(predecessor, currCity);
 					if (dist < minDist) {
 						minDist = dist;
 						nextCity = currCity;

@@ -54,7 +54,7 @@ public class DadosVertice extends TabelaDistancia {
 	}
 
 
-	public double getDistanceBetween(int v1, int v2) {
+	public double getArestaEntreVertices(int v1, int v2) {
 		Vertice vertex1 = get(v1);
 		Vertice vertex2 = get(v2);
 
@@ -66,7 +66,7 @@ public class DadosVertice extends TabelaDistancia {
 			throw new IllegalArgumentException("vertex " + v2 + " does not exist");
 		}
 		
-		return funcaoDistancia.distance(get(v1), get(v2));
+		return funcaoDistancia.distancia(get(v1), get(v2));
 	}
 
 
@@ -84,17 +84,5 @@ public class DadosVertice extends TabelaDistancia {
 
 			add(new Vertice(vertex, coordenada));
 		}
-	}
-
-
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-
-		for (Vertice v : vertices.values()) {
-			sb.append(v.toString());
-			sb.append('\n');
-		}
-
-		return sb.toString();
 	}
 }

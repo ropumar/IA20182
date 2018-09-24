@@ -8,7 +8,6 @@ import java.io.IOException;
 public class InstanciaTSP {
 
 	private String name;
-	private String comment;
 	private int dimension;
 	private FormatPesoAresta formatPesoAresta;
 	private TabelaDistancia tabelaDistancia;
@@ -59,12 +58,6 @@ public class InstanciaTSP {
 
 				if (key.equals("NAME")) {
 					name = value;
-				} else if (key.equals("COMMENT")) {
-					if (comment == null) {
-						comment = value;
-					} else {
-						comment = comment + "\n" + value;
-					}
 				} else if (key.equals("DIMENSION")) {
 					dimension = Integer.parseInt(value);
 				} else if (key.equals("EDGE_WEIGHT_FORMAT")) {
@@ -79,10 +72,6 @@ public class InstanciaTSP {
 		return name;
 	}
 
-	public String getComment() {
-		return comment;
-	}
-
 	public int getDimension() {
 		return dimension;
 	}
@@ -93,19 +82,6 @@ public class InstanciaTSP {
 
 	public TabelaDistancia getDistanceTable() {
 		return tabelaDistancia;
-	}
-
-	public String printMatrix() {
-		String result = "";
-
-		for (int row = 0; row < dimension; row++) {
-			for (int col = 0; col < dimension; col++) {
-				result += String.format("%" + -8 + "s", tabelaDistancia.getDistanceBetween(row + 1, col + 1));
-			}
-			result += "\n";
-		}
-
-		return result;
 	}
 
 }

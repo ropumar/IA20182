@@ -23,11 +23,6 @@ public class Vertice {
 	}
 	
 
-	public String toString() {
-		return this.ID + ": " + this.coordenada.toString();
-	}
-	
-	
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;

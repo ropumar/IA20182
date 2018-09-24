@@ -23,19 +23,6 @@ public class Coordenada {
 		this.Y = y;
 	}
 
-	public double getX() {
-		return X;
-	}
-
-	public double getY() {
-		return Y;
-	}
-
-	@Override
-	public String toString() {
-		return "(" + this.X + ", " + this.Y + ")";
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {

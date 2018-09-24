@@ -50,7 +50,7 @@ public class MatrizPesoAresta extends TabelaDistancia {
 	}
 
 
-	public double getDistanceBetween(int v1, int v2) {
+	public double getArestaEntreVertices(int v1, int v2) {
 		if ((v1 < 1) || (v1 > size)) {
 			throw new IllegalArgumentException("vertex " + v1 + " does not exist");
 		}
@@ -100,25 +100,6 @@ public class MatrizPesoAresta extends TabelaDistancia {
 		if (!entries.isEmpty()) {
 			throw new IOException();
 		}
-	}
-	
-
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				if (j > 0) {
-					sb.append(' ');
-				}
-				
-				sb.append(matrix[i][j]);
-			}
-			
-			sb.append('\n');
-		}
-		
-		return sb.toString();
 	}
 
 }
