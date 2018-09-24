@@ -77,13 +77,7 @@ public class GulosoMLP {
 			System.out.print(path[i] + " ");
 		}
 		System.out.println(path[0]);
-//		System.out.print("Latencia achada: ");
-//		for (int i = 0; i < path.length; i++) {
-//			System.out.print(latencyArray[path[i]-1] + " ");
-//		}
-//		System.out.println("");
 		System.out.println("Latencia total do problema MLP por Algortimo guloso: " + getTourLatency(path,latencyArray));
-//		System.out.println("Distancia total do problema TSP por Algortimo guloso " + getTourDist(path));
 
 	}
 

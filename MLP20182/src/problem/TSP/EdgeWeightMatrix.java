@@ -38,7 +38,7 @@ public class EdgeWeightMatrix extends DistanceTable {
 		}
 	}
 
-	@Override
+
 	public int[] listVertices() {
 		int[] vertices = new int[size];
 		
@@ -50,7 +50,6 @@ public class EdgeWeightMatrix extends DistanceTable {
 	}
 
 
-	@Override
 	public double getDistanceBetween(int v1, int v2) {
 		if ((v1 < 1) || (v1 > size)) {
 			throw new IllegalArgumentException("vertex " + v1 + " does not exist");
@@ -63,7 +62,7 @@ public class EdgeWeightMatrix extends DistanceTable {
 		return matrix[v1-1][v2-1];
 	}
 
-	@Override
+
 	public void load(BufferedReader reader) throws IOException {
 		Queue<Double> entries = new LinkedList<Double>();
 		
@@ -103,7 +102,7 @@ public class EdgeWeightMatrix extends DistanceTable {
 		}
 	}
 	
-	@Override
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		

@@ -28,9 +28,6 @@ public class Genetic {
 		numberOfGens=0;
 		path = GeneticSolve(40);
 		latencyArray=fillLatency(path);
-//		if (distinctValues(path)) {
-//		System.out.println("O caminho possui todos os nos unicos entao deve estar CERTO");
-//	}
 	}
 
 
@@ -62,9 +59,6 @@ public class Genetic {
 
 		}
 		sortRemoveDuplicates();
-//		selectIndividuals(3);
-//		printPool(poolData);
-
 		return poolData.get(0).path;
 	}
 	
@@ -216,8 +210,6 @@ public class Genetic {
 				if(i!=j) {
 					int[] parent1 = toPrimitive(poolData.get(i).path);
 					int[] parent2 = toPrimitive(poolData.get(j).path);
-//					int[] parent1=generatesPermutation(generatesInversion(i));
-//					int[] parent2=generatesPermutation(generatesInversion(j));
 					PMXsex(parent1,parent2);
 				}
 			}
@@ -228,8 +220,7 @@ public class Genetic {
 	//shuffles(random) a array of int[]
 	  private int[] shuffleArray(int[] ar)
 	  {
-	    for (int i = ar.length - 1; i > 1; i--)
-	    {
+	    for (int i = ar.length - 1; i > 1; i--){
 	      int index = rand.nextInt(i + 1);
 	      if (index==0) continue; //pois o primeiro noh eh sempre o noh 1
 	      int a = ar[index];
@@ -331,11 +322,6 @@ public class Genetic {
 				System.out.print(path[i] + " ");
 			}
 			System.out.println(path[0]);
-//			System.out.print("Latencia achada: ");
-//			for (int i = 0; i < path.length - 1; i++) {
-//				System.out.print(latencyArray[path[i]-1] + " ");
-//			}
-//			System.out.println("");
 			System.out.println("Latencia total do problema MLP por Algortimo Genetico: " + getTourLatency(path,latencyArray));
 
 		}

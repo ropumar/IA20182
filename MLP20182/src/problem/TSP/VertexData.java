@@ -41,7 +41,7 @@ public class VertexData extends DistanceTable {
 		return vertices.size();
 	}
 
-	@Override
+
 	public int[] listVertices() {
 		int index = 0;
 		int[] result = new int[size];
@@ -54,7 +54,6 @@ public class VertexData extends DistanceTable {
 	}
 
 
-	@Override
 	public double getDistanceBetween(int v1, int v2) {
 		Vertex vertex1 = get(v1);
 		Vertex vertex2 = get(v2);
@@ -66,16 +65,17 @@ public class VertexData extends DistanceTable {
 		if (vertex2 == null) {
 			throw new IllegalArgumentException("vertex " + v2 + " does not exist");
 		}
+		
 		return distanceFunction.distance(get(v1), get(v2));
 	}
 
-	@Override
+
 	public void load(BufferedReader reader) throws IOException {
 		for (int i = 0; i < size; i++) {
 			String line = reader.readLine();
 			String[] tokens = line.trim().split("\\s+");
 
-			if (tokens.length != 2 + 1) { // 2 is used for 2D coords
+			if (tokens.length != 2 + 1) {
 				throw new IOException("invalid number of tokens for vertex entry");
 			}
 
@@ -86,7 +86,7 @@ public class VertexData extends DistanceTable {
 		}
 	}
 
-	@Override
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
@@ -97,5 +97,4 @@ public class VertexData extends DistanceTable {
 
 		return sb.toString();
 	}
-
 }
