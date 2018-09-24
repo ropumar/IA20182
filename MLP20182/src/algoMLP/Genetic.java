@@ -17,6 +17,7 @@ public class Genetic {
 	private int[] child2;
 	private Random rand = new Random();
 	private int numberOfGens;
+	private int capableparents=20;
 	public Genetic(TSPInstance problem) throws Exception {
 		this.tsp = problem;
 		dt = tsp.getDistanceTable();
@@ -34,19 +35,31 @@ public class Genetic {
 
 
 	public Integer[] GeneticSolve(int nGen) {
-		GenerateIndividuals(50);
+		GenerateIndividuals(100);
+		for (int j=0;j<poolData.size();j++) {
+			ChildData.add(poolData.get(j));	
+		}
 		for (int i=0; i<nGen;i++) {
 			numberOfGens++;
-			//System.out.println("Generation: " + i +" Numbers of individuals: " + poolData.size() + " best individual latency: "+poolData.get(0).totalLatency );
 			sortRemoveDuplicates();
-			selectIndividuals(20);
-			procriation();
+			selectIndividuals(capableparents);
+			int max=ChildData.size()-1;
+			int min=capableparents;
+			Set<Integer> unique = new HashSet<Integer>();
+			for (int j=0;j<10;j++) {
+					unique.add(rand.nextInt((max - min) + 1) + min); //so as to not be repeated
+			}
+			for (Integer k : unique) {
+				poolData.add(ChildData.get(k));// adds not capable parents so that we have more variation even if currently they are bad parents
+			}
+			ChildData.clear(); //childs are adults, remove then from child list
+			procriation(); //populates ChildData here
 			sortRemoveDuplicates();
-			selectIndividuals(3);//keep only best parents for next generation, killing others	
+			selectIndividuals(5);//keep only a few best parents for next generation, killing others	
 			for (int j=0;j<ChildData.size();j++) {
 				poolData.add(ChildData.get(j));	//new childs are adults added to genetic pool
 			}
-			ChildData.clear(); //childs are adults, remove then from child list
+
 		}
 		sortRemoveDuplicates();
 //		selectIndividuals(3);
@@ -159,14 +172,17 @@ public class Genetic {
 				child2[i] = n2+1;
 			}
 		}
-		int mutationrate=5;
-		if(numberOfGens>20) {
+		int mutationrate=10;
+		if(numberOfGens>10) {//because is better to do more mutation in the end
+			mutationrate=8;
+		} else if(numberOfGens>20)  {
+			mutationrate=5;
+		}else if(numberOfGens>30)  {
 			mutationrate=3;
-		} //because is better to do more mutation in the end
+		}
 		boolean prob = rand.nextInt(mutationrate)==0;
 	    if(!prob) {
-			for( int i=0;i<(int)rand.nextInt(cities.length)/3;i++) {
-//				System.out.println("Mutate "+ i);
+			for( int i=0;i<(int)rand.nextInt(cities.length)/5;i++) { //aleatoriamente podese faze mutacao em muitos ou poucos genes, para gerar mais variacao algumas vezes
 				mutate(child1);
 				mutate(child2);
 			}
