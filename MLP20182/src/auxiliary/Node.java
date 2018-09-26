@@ -20,8 +20,12 @@ public class Node implements Comparable <Node>{
 	
 	public boolean myEquals(Node value){
 		if (this.totalLatency ==value.totalLatency) {
+			for (int i=0;i<this.path.length;i++) {
+				if (this.path[i]!=value.path[i]) return false;
+			}
 			return true;
-		}
-	    return false;
+		}else return false;
 	}
+	
+	
 }

@@ -17,7 +17,7 @@ public class Genetic {
 	private int[] child2;
 	private Random rand = new Random();
 	private int numberOfGens;
-	private int capableparents=20;
+	private int capableparents=10;
 	public Genetic(InstanciaTSP problem) throws Exception {
 		this.tsp = problem;
 		dt = tsp.getDistanceTable();
@@ -26,13 +26,13 @@ public class Genetic {
 		child1= new int[cities.length];
 		child2= new int[cities.length];
 		numberOfGens=0;
-		path = GeneticSolve(40);
+		path = GeneticSolve(20000);
 		latencyArray=fillLatency(path);
 	}
 
 
 	public Integer[] GeneticSolve(int nGen) {
-		GenerateIndividuals(100);
+		GenerateIndividuals(10000);
 		for (int j=0;j<poolData.size();j++) {
 			ChildData.add(poolData.get(j));	
 		}
@@ -111,11 +111,11 @@ public class Genetic {
 		while (j<poolData.size()-1) 
 		{
 			if (poolData.get(j).myEquals(poolData.get(j+1))){
+				//System.out.println("Found equal");
 				poolData.remove(j+1);
 			}else j++;
 		}
 	}
-
 	//does the genetic crossover PMX algorithm using a replacement vector
 	// fills child1 and child2 vectors, the result of crossover for each two parents
 	private void PMXsex(int[] parent1, int[] parent2) {
@@ -167,16 +167,14 @@ public class Genetic {
 			}
 		}
 		int mutationrate=10;
-		if(numberOfGens>10) {//because is better to do more mutation in the end
+		if(numberOfGens>100) {//because is better to do more mutation in the end
 			mutationrate=8;
-		} else if(numberOfGens>20)  {
+		}else if (numberOfGens>1000) {
 			mutationrate=5;
-		}else if(numberOfGens>30)  {
-			mutationrate=3;
 		}
 		boolean prob = rand.nextInt(mutationrate)==0;
 	    if(!prob) {
-			for( int i=0;i<(int)rand.nextInt(cities.length)/5;i++) { //aleatoriamente podese faze mutacao em muitos ou poucos genes, para gerar mais variacao algumas vezes
+			for( int i=0;i<(int)rand.nextInt(cities.length)/15;i++) { //aleatoriamente podese faze mutacao em muitos ou poucos genes, para gerar mais variacao algumas vezes
 				mutate(child1);
 				mutate(child2);
 			}
@@ -220,6 +218,7 @@ public class Genetic {
 	//shuffles(random) a array of int[]
 	  private int[] shuffleArray(int[] ar)
 	  {
+		 rand=new Random();
 	    for (int i = ar.length - 1; i > 1; i--){
 	      int index = rand.nextInt(i + 1);
 	      if (index==0) continue; //pois o primeiro noh eh sempre o noh 1
@@ -231,9 +230,9 @@ public class Genetic {
 	  }
 		// calcula distancia do percurso
 		private double[] fillLatency(Integer[] tourTempInteger) {
-			double dist = 0;
+			double dist = 0.0;
 			double[] latency = new double[tourTempInteger.length];
-			latency[0]= 0;
+			latency[0]= 0.0;
 			for (int i = 1; i < tourTempInteger.length; i++) {
 				dist = dt.getArestaEntreVertices(tourTempInteger[i-1], tourTempInteger[i]);
 				latency[tourTempInteger[i]-1]=latency[tourTempInteger[i-1]-1] + dist;
@@ -242,7 +241,7 @@ public class Genetic {
 		}
 		// calcula latencia total do percurso
 		private static double getTourLatency(Integer[] tourTempInteger, double[] latencythis) {
-			double totlatency=0;
+			double totlatency=0.0;
 			for (int i = 0; i < tourTempInteger.length; i++) {
 				totlatency +=latencythis[i];
 			}
