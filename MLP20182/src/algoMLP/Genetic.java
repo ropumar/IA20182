@@ -17,7 +17,7 @@ public class Genetic {
 	private int[] child2;
 	private Random rand = new Random();
 	private int numberOfGens;
-	private int capableparents=10;
+	private int capableparents=20;
 	public Genetic(InstanciaTSP problem) throws Exception {
 		this.tsp = problem;
 		dt = tsp.getDistanceTable();
@@ -52,7 +52,7 @@ public class Genetic {
 			ChildData.clear(); //childs are adults, remove then from child list
 			procriation(); //populates ChildData here
 			sortRemoveDuplicates();
-			selectIndividuals(5);//keep only a few best parents for next generation, killing others	
+			selectIndividuals(2);//keep only a few best parents for next generation, killing others	
 			for (int j=0;j<ChildData.size();j++) {
 				poolData.add(ChildData.get(j));	//new childs are adults added to genetic pool
 			}
@@ -170,7 +170,7 @@ public class Genetic {
 		if(numberOfGens>100) {//because is better to do more mutation in the end
 			mutationrate=8;
 		}else if (numberOfGens>1000) {
-			mutationrate=5;
+			mutationrate=7;
 		}
 		boolean prob = rand.nextInt(mutationrate)==0;
 	    if(!prob) {
