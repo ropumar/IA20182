@@ -5,14 +5,17 @@ namespace PokerScripts
 {
     public class CardSorter
     {
-        private StreamWriter writerNumber = new StreamWriter("poker-hand-training-numbersort.arff");
-        //private StreamWriter writerSuit = new StreamWriter("poker-hand-training-suitsort.arff");
-        private StreamWriter writerNumberAndSuit = new StreamWriter("poker-hand-training-numberandsuitsort.arff");
-
         public void SortCardByNumberAndSuit (FileStream streamInput)
         {
             StreamReader reader = new StreamReader(streamInput);
+            string path = System.AppDomain.CurrentDomain.BaseDirectory.ToString();
 
+            string pathNumberSort = string.Concat(path,  "Data/Sorts/poker-hand-training-numbersort.arff");
+            string pathNumberAndSuitSort = string.Concat(path, "Data/Sorts/poker-hand-training-numberandsuitsort.arff");
+
+            StreamWriter writerNumber = new StreamWriter(pathNumberSort);
+            StreamWriter writerNumberAndSuit = new StreamWriter(pathNumberAndSuitSort);
+            
             string line = reader.ReadLine();
 
             while (line != "@data")
@@ -20,8 +23,8 @@ namespace PokerScripts
                 writerNumber.WriteLine(line);
                 writerNumberAndSuit.WriteLine(line);
                 line = reader.ReadLine();
-
             }
+
             writerNumber.WriteLine(line);
             writerNumberAndSuit.WriteLine(line);
 
@@ -30,9 +33,9 @@ namespace PokerScripts
             while (line != null)
             {
                 line = ByNumber(line);
-                writerNumber.WriteLine();
+                writerNumber.WriteLine(line);
                 line = BySuit(line);
-                writerNumberAndSuit.WriteLine();
+                writerNumberAndSuit.WriteLine(line);
                 line = reader.ReadLine();
             }
 
@@ -70,14 +73,12 @@ namespace PokerScripts
             {
                 if (end != 10)
                 {
-                    string.Concat(result, lines, ',');
-                    //writerNumber.Write(lines + ",");
+                    result = string.Concat(result, lines, ',');
                 }
 
                 else
                 {
-                    string.Concat(result, lines);
-                    //writerNumber.Write(lines);
+                    result = string.Concat(result, lines);
                 }
 
                 end++;
@@ -147,21 +148,18 @@ namespace PokerScripts
                     }
                 }
             }
-
             int end = 0;
 
             foreach (string lines in lineSplit)
             {
                 if (end != 10)
                 {
-                    string.Concat(result, lines, ',');
-                    //writerSuit.Write(lines + ",");
+                    result = string.Concat(result, lines, ',');
                 }
 
                 else
                 {
-                    string.Concat(result, lines);
-                    //writerSuit.Write(lines);
+                    result = string.Concat(result, lines);
                 }
 
                 end++;

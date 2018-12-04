@@ -12,10 +12,11 @@ namespace PokerScripts
         static void Main(string[] args)
         {
             CardSorter cardSorter = new CardSorter();
+            string path = System.AppDomain.CurrentDomain.BaseDirectory.ToString();
 
             try
             {
-                FileStream streamInput = File.Open("poker-hand-training.arff", FileMode.Open);
+                FileStream streamInput = File.Open(string.Concat(path, "Data/poker-hand-training.arff"), FileMode.Open);
                 cardSorter.SortCardByNumberAndSuit(streamInput);
                 streamInput.Close();
             }
