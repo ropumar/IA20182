@@ -16,7 +16,7 @@ namespace PokerScripts
 
             try
             {
-                FileStream streamInput = File.Open(string.Concat(path, "Data/poker-hand-training.arff"), FileMode.Open);
+                FileStream streamInput = File.Open(string.Concat(path, "Data/poker-hand-testing.arff"), FileMode.Open);
                 cardSorter.SortCardByNumberAndSuit(streamInput);
                 streamInput.Close();
             }

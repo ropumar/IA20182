@@ -10,8 +10,8 @@ namespace PokerScripts
             StreamReader reader = new StreamReader(streamInput);
             string path = System.AppDomain.CurrentDomain.BaseDirectory.ToString();
 
-            string pathNumberSort = string.Concat(path,  "Data/Sorts/poker-hand-training-numbersort.arff");
-            string pathNumberAndSuitSort = string.Concat(path, "Data/Sorts/poker-hand-training-numberandsuitsort.arff");
+            string pathNumberSort = string.Concat(path,  "Data/Sorts/poker-hand-testing-numbersort.arff");
+            string pathNumberAndSuitSort = string.Concat(path, "Data/Sorts/poker-hand-testing-numberandsuitsort.arff");
 
             StreamWriter writerNumber = new StreamWriter(pathNumberSort);
             StreamWriter writerNumberAndSuit = new StreamWriter(pathNumberAndSuitSort);
